@@ -1,0 +1,53 @@
+//import variables
+
+@import "variables/colors.scss";
+
+//import font
+@import "../font/font.scss";
+
+html {
+    font-family: "space_mono_regular";
+  }
+
+li{
+    list-style-type: none;
+}
+a{
+    text-decoration: none;
+    color: $noir;
+}
+
+//header
+header{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    max-width: 1440px;
+    .logo{
+        padding-left: 146px;
+    }
+    nav{
+        padding-right: 146px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        .menu{
+            display: flex;
+            gap: 45px;
+        }        
+    }
+}
+
+//footer
+footer{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    
+    .menu{
+        display: flex;
+        gap: 86px;
+        font-size: 1rem;
+        text-transform: uppercase;
+    }
+}
