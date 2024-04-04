@@ -1,5 +1,7 @@
-//import variables
+//debug
+//* { outline: 1px solid red; }
 
+//import variables
 @import "variables/colors.scss";
 
 //import font
@@ -29,7 +31,10 @@ header{
     align-items: center;
     justify-content: space-between;
     height: 80px;
-    max-width: 1440px;
+    position: sticky;
+    top:0px;
+    background-color: #FFF;
+    z-index: 99;
     .logo{
         padding-left: 146px;
     }
@@ -42,7 +47,33 @@ header{
         .menu{
             display: flex;
             gap: 45px;
+        }
+        a:hover{
+            font-weight: 700;
         }        
+    }
+}
+
+.containerHero{
+    background-image: url(../img/hero.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h1{
+        font-family: 'space_mono_bold_italic';
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: #FFF;
+        font-size: 6rem;
+        text-transform: uppercase;
+        position: absolute;
+        text-align: center;
+        color: transparent;
     }
 }
 
@@ -51,7 +82,6 @@ footer{
     display: flex;
     align-items:center;
     justify-content: center;
-    
     .menu{
         display: flex;
         gap: 86px;
