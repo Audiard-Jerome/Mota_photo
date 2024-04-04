@@ -6,4 +6,6 @@
 <p>Test p</p>
 <p class="descriptionPhoto">Test description photo</p>
 
+<?php get_template_part('templates_part/modale'); ?>
+
 <?php get_footer(); ?>

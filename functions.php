@@ -57,3 +57,5 @@ function mota_custom_logo_login() {
 
 add_action( 'login_head', 'mota_custom_logo_login', 100 );
 
+//Cacher le spinner de WPCF7
+add_filter( 'wpcf7_load_js', '__return_false' );
