@@ -1,7 +1,7 @@
 // gestion menu burger
 const burger = document.querySelector('.burger');
-const menu = document.querySelector('.main-menu');
-const menuLink = document.querySelectorAll('.main-menu a');
+const menu = document.querySelector('.menuLinkMobile');
+const menuLink = document.querySelectorAll('.menuLinkMobile a');
 
 burger.addEventListener('click', () => {
   burger.classList.toggle('active');

@@ -9,21 +9,31 @@
 <body <?php body_class(); ?>>
         <?php wp_body_open(); ?>
                 <header>
+                    <div class="menu">
                         <div class="logo">
-                        <?php if ( function_exists( 'the_custom_logo' ) ) {
+                            <?php if ( function_exists( 'the_custom_logo' ) ) {
 	                                    the_custom_logo();
                                         }
-                        ?>
+                            ?>
                         </div>
-                        <nav id="menu" role="navigation" >
+                        <nav id="menuLink" role="navigation" >
                             <?php wp_nav_menu([
 							    'theme_location' => 'header_menu',
-                                "menu-class" => 'menu-item',
+                                "menu-class" => 'menuDesktop',
                                 'container'  => false,
                                 ]); 
                             ?>
-                            <div class="burger">
-                                <span></span>
-                            </div>
-                        </nav>    
+                        </nav>   
+                        <div class="burger">
+                            <span></span>
+                        </div>
+                    </div>
+                    <nav class="menuLinkMobile">
+                        <?php wp_nav_menu([
+							    'theme_location' => 'header_menu',
+                                "menu-class" => 'menuMobile',
+                                'container'  => false,
+                                ]); 
+                        ?>
+                    </nav> 
                 </header>

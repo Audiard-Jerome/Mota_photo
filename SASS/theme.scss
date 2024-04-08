@@ -1,5 +1,8 @@
 //debug
-//* { outline: 1px solid red; }
+* { outline: 1px solid red; }
+
+//breakpoint
+$breakpoint__mobile: 769px;
 
 //import variables
 @import "variables/colors.scss";
@@ -20,13 +23,14 @@ html {
 li{
     list-style-type: none;
 }
+
 a{
     text-decoration: none;
     color: $noir;
 }
 
 //header
-header{
+header .menu{
     display:flex;
     align-items: center;
     justify-content: space-between;
@@ -52,6 +56,10 @@ header{
             font-weight: 700;
         }        
     }
+}
+
+#menuLinkMobile{
+    display: none;
 }
 
 .containerHero{
@@ -137,5 +145,37 @@ footer{
         background-image: url(../img/contactHeader.png);
         background-origin: center;
         margin-top: 18px;
+    }
+}
+
+@media (max-width: $breakpoint__mobile) {
+    header .menu {
+        justify-content: space-around;
+        height: 72px;
+        #menuLink{
+        display : none;
+        }
+        .logo{
+        padding-left: 0px;
+        }
+        .burger{
+            display: unset;
+        }
+    }
+    .menuLinkMobile.active{
+        display: flex;
+        ul{
+            flex-direction: column;
+            justify-content: center;
+            gap: 18px;
+            height: calc(100vh - 80px);
+            width: 100vw;
+            background-color: $rouge;
+            a{
+                font-size: 2.75rem;
+                text-transform: uppercase;
+                color: #FFF;
+            }
+        }
     }
 }
