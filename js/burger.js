@@ -1,4 +1,6 @@
 // gestion menu burger
+console.log("JS menu burger chargé")
+
 const burger = document.querySelector('.burger');
 const menu = document.querySelector('.menuLinkMobile');
 const menuLink = document.querySelectorAll('.menuLinkMobile a');
@@ -15,4 +17,3 @@ menuLink.forEach((link) => {
   });
 });
 
-console.log("menu burger JS chargé")

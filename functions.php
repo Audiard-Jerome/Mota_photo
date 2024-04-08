@@ -3,8 +3,12 @@
 //  Ajouter CSS + JS
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
 function theme_enqueue_styles(){
+	//css du theme
 	wp_enqueue_style('theme-style', get_stylesheet_directory_uri() . '/css/theme.min.css', array(), filemtime(get_stylesheet_directory() . '/css/theme.min.css'));
-	wp_enqueue_script( 'script', get_stylesheet_directory_uri() . '/js/burger.js', array(), filemtime(get_stylesheet_directory() . '/js/burger.js'), true );
+	//Script JS menu burger
+	wp_enqueue_script( 'script_burger', get_stylesheet_directory_uri() . '/js/burger.js', array(), filemtime(get_stylesheet_directory() . '/js/burger.js'), true );
+	//Script JS modale
+	wp_enqueue_script( 'script_modale', get_stylesheet_directory_uri() . '/js/scripts.js', array(), filemtime(get_stylesheet_directory() . '/js/scripts.js'), true );
 }
 
 
@@ -53,5 +57,7 @@ function mota_custom_logo_login() {
 
 add_action( 'login_head', 'mota_custom_logo_login', 100 );
 
-//Cacher le spinner de WPCF7
+// bloque JS et CSS de WPCF7
 add_filter( 'wpcf7_load_js', '__return_false' );
+add_filter( 'wpcf7_load_css', '__return_false' );
+
