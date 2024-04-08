@@ -1,5 +1,5 @@
 //debug
-* { outline: 1px solid red; }
+* { outline: 1px solid green; }
 
 //breakpoint
 $breakpoint__mobile: 769px;
@@ -33,31 +33,33 @@ a{
 }
 
 //header
-header .menu{
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 80px;
-    position: sticky;
-    top:0px;
+
+
+header {
+    display: flex;
+    top: var(--wp-admin--admin-bar--height);
     background-color: #FFF;
     z-index: 99;
-    .logo{
-        padding-left: 146px;
-    }
-    nav{
+    position: sticky;
+    .menu{
+        width: 100%;
+        height: 80px;
         display:flex;
         align-items: center;
-        padding-right: 146px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        .menu{
-            display: flex;
-            gap: 45px;
+        justify-content: space-around;
+        nav{
+            display:flex;
+            align-items: center;
+            font-size: 1rem;
+            text-transform: uppercase;
+            .menu{
+                display: flex;
+                gap: 45px;
+            }
+            a:hover{
+                font-weight: 700;
+            }        
         }
-        a:hover{
-            font-weight: 700;
-        }        
     }
 }
 
@@ -152,9 +154,13 @@ footer{
 }
 
 @media (max-width: $breakpoint__mobile) {
-    header .menu {
+    header{
+        flex-direction: column;
+    }
+    header .menu{ //bug ???
+        display: flex;
         justify-content: space-around;
-        height: 72px;
+        height: 72px; //pourquoi pas 72px de haut ?
         #menuLink{
         display : none;
         }
@@ -171,7 +177,7 @@ footer{
             flex-direction: column;
             justify-content: center;
             gap: 18px;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 72px);
             width: 100vw;
             background-color: $rouge;
             a{
