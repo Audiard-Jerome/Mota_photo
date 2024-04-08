@@ -241,6 +241,7 @@ footer{
     }
     .menuLinkMobile.active{
         display: flex;
+        animation: fadeIn 0.3s both;
         ul{
             flex-direction: column;
             justify-content: center;
