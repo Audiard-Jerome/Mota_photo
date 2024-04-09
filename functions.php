@@ -37,6 +37,24 @@ function mota_menu() {
 }
 add_action( 'after_setup_theme', 'mota_menu' );
 
+// Ajout du bouton contact dans le menu header.
+function add_custom_menu_header_item($items, $args) {
+    if ($args->theme_location == 'header_menu') { 
+        $items .= '<li class="menu-item menu-item-type-post_type menu-item-object-page js-modal"><a href="#modal1">Contact</a></li>';
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_items', 'add_custom_menu_header_item', 10, 2);
+
+// Ajout du texte tout droits réservé dans le menu footer
+function add_custom_menu_footer_item($items, $args) {
+    if ($args->theme_location == 'footer_menu') { 
+        $items .= '<li class="menu-item menu-item-type-post_type menu-item-object-page"><p>Tous droits réservés</p></li>';
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_items', 'add_custom_menu_footer_item', 10, 2);
+
 // custom logo on login page
 function mota_custom_logo_login() {
 	if ( has_custom_logo() ) :
@@ -57,7 +75,8 @@ function mota_custom_logo_login() {
 
 add_action( 'login_head', 'mota_custom_logo_login', 100 );
 
-// bloque JS et CSS de WPCF7
+// Bloque JS et CSS de WPCF7. Le JC et CSS n'est chargé que lorsqu'on charge la modale
 add_filter( 'wpcf7_load_js', '__return_false' );
 add_filter( 'wpcf7_load_css', '__return_false' );
+
 
