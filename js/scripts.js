@@ -6,7 +6,6 @@ const openModal = function (e) {
     modal = document.querySelector(e.target.getAttribute('href'));
     modal.style.display = null
     modal.removeAttribute('aria-hidden')
-    modal.setAttribute('aria-modal', 'true')
     modal.addEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
 }
@@ -15,7 +14,6 @@ const closeModal = function (e) {
     if (modal === null) return
     e.preventDefault()
     modal.setAttribute('aria-hidden', 'true')
-    modal.removeAttribute('aria-modal')
     modal.removeEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
     const hideModal = function () {

@@ -10,10 +10,9 @@ if ( function_exists( 'wpcf7_enqueue_styles' ) ) {
 }
  
 ?>
-<aside id="modal1" class="modal" aira-hidden="true" role="dialog" aria-modal="false" style="display:none;">
+<div id="modal1" class="modal" role="dialog" aria-modal="false" style="display:none;">
     <div class="modal-wrapper js-modal-stop">
         <div class="formContactHeader"></div>    
         <?php echo do_shortcode('[contact-form-7 id="7980fc8" title="Formulaire de contact"]') ?>
-        <!-- <button class="js-modal-close">Fermer la boite modale</button> -->
     </div>
-</aside>
+</div>
