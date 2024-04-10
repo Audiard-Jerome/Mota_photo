@@ -11,8 +11,6 @@ function theme_enqueue_styles(){
 	wp_enqueue_script( 'script_modale', get_stylesheet_directory_uri() . '/js/scripts.js', array(), filemtime(get_stylesheet_directory() . '/js/scripts.js'), true );
 }
 
-
-
 // Ajouter la prise en charge des images mises en avant
 add_theme_support( 'post-thumbnails' );
 
@@ -27,7 +25,27 @@ function mota_custom_logo_setup() {
 }
 add_action( 'after_setup_theme', 'mota_custom_logo_setup' );
 
-// Menu
+// custom logo on login page
+function mota_custom_logo_login() {
+	if ( has_custom_logo() ) :
+		$image = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
+		?>
+		<style type="text/css">
+			.login h1 a {
+				background-image: url(<?php echo esc_url( $image[0] ); ?>);
+				-webkit-background-size: <?php echo absint( $image[1] )?>px;
+				background-size: <?php echo absint( $image[1] ) ?>px;
+				height: <?php echo absint( $image[2] ) ?>px;
+				width: <?php echo absint( $image[1] ) ?>px;
+			}
+		</style>
+		<?php
+	endif;
+}
+
+add_action( 'login_head', 'mota_custom_logo_login', 100 );
+
+// Ajout des Menus dans le header et le fotter
 function mota_menu() {
 	add_theme_support('menu');
 	register_nav_menus( array( 
@@ -54,26 +72,6 @@ function add_custom_menu_footer_item($items, $args) {
     return $items;
 }
 add_filter('wp_nav_menu_items', 'add_custom_menu_footer_item', 10, 2);
-
-// custom logo on login page
-function mota_custom_logo_login() {
-	if ( has_custom_logo() ) :
-		$image = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
-		?>
-		<style type="text/css">
-			.login h1 a {
-				background-image: url(<?php echo esc_url( $image[0] ); ?>);
-				-webkit-background-size: <?php echo absint( $image[1] )?>px;
-				background-size: <?php echo absint( $image[1] ) ?>px;
-				height: <?php echo absint( $image[2] ) ?>px;
-				width: <?php echo absint( $image[1] ) ?>px;
-			}
-		</style>
-		<?php
-	endif;
-}
-
-add_action( 'login_head', 'mota_custom_logo_login', 100 );
 
 // Bloque JS et CSS de WPCF7. Le JC et CSS n'est chargé que lorsqu'on charge la modale
 add_filter( 'wpcf7_load_js', '__return_false' );
