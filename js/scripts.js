@@ -8,6 +8,13 @@ const openModal = function (e) {
     modal.removeAttribute('aria-hidden')
     modal.addEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+    //recupere la reference de la photo.
+    let photoRef = document.querySelector('.photoRef')
+    //si photoRef n'existe pas on arrete. 
+    if (photoRef === null) return
+    //Sinon on copie le texte de photoRef dans la modale
+    let modalRef = document.querySelector('.modalRef')
+    modalRef.value = photoRef.textContent
 }
 
 const closeModal = function (e) {
@@ -21,7 +28,9 @@ const closeModal = function (e) {
         modal.removeEventListener('animationend', hideModal)
         modal = null
     }
-    modal.addEventListener('animationend', hideModal);    
+    modal.addEventListener('animationend', hideModal);
+    //on efface la variable photo ref si on ferme la modale
+    photoRef = null    
 }
 
 const stopPropagation = function (e) {

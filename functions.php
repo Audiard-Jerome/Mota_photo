@@ -9,6 +9,8 @@ function theme_enqueue_styles(){
 	wp_enqueue_script( 'script_burger', get_stylesheet_directory_uri() . '/js/burger.js', array(), filemtime(get_stylesheet_directory() . '/js/burger.js'), true );
 	//Script JS modale
 	wp_enqueue_script( 'script_modale', get_stylesheet_directory_uri() . '/js/scripts.js', array(), filemtime(get_stylesheet_directory() . '/js/scripts.js'), true );
+	//Script JS gestion du survol des liens de navigation dans la page d'info d'une photo.
+	wp_enqueue_script( 'script_mouseover', get_stylesheet_directory_uri() . '/js/mouseover.js', array(), filemtime(get_stylesheet_directory() . '/js/mouseover.js'), true );
 }
 
 // Ajouter la prise en charge des images mises en avant

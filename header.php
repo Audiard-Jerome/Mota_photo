@@ -8,7 +8,7 @@
 </head>
 <body <?php body_class(); ?>>
         <?php wp_body_open(); ?>
-                <header>
+                <header class="max_width">
                     <div class="menu">
                         <div class="logo">
                             <?php if ( function_exists( 'the_custom_logo' ) ) {

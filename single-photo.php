@@ -7,22 +7,23 @@
 
 get_header();
 
-
 if (have_posts()) {
     while (have_posts()) {
         the_post();
 // Récupérer le titre de la photo
 $photo_title = get_the_title();
+$post_id = get_the_ID(); // Récupère l'ID de la publication en cours
 
 // Récupérer les taxonomies de la photo
-$photo_format = get_the_term_list($post->ID, 'format', '', ', ', '');
-$photo_category = get_the_term_list($post->ID, 'categorie', '', ', ', '');
+// $taxs = get_terms(['taxonomy' => 'format']);
 
 // Récupérer des groupes de champs personnalisés associés à la photo
 $custom_fields = get_post_custom();
+$taxonomies_format = get_the_terms( $post->ID, 'custom_format' );
+$taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
 
         ?>
-        <div class="singlePhotoContainer">
+        <div class="singlePhotoContainer max_width">
             <div class="photoContainer">
                 <div class="infoContainer descriptionPhoto">
                     <!-- affiche le Titre -->
@@ -32,35 +33,98 @@ $custom_fields = get_post_custom();
                         foreach ($custom_fields as $key => $value) {
                             // Vérifier si la clé est égale à "reference"
                             if ($key === 'reference') {
-                            echo '<p>' . $key . ': ' . implode(', ', $value) . '</p>';
+                            echo '<p>' . $key . ' : <span class="photoRef">' . implode(', ', $value) . '</span></p>';
                             }
                         }
                     ?>
                     <!-- affiche la taxonomie "cathégorie" -->
-                    <p>cathégorie :</p>
+                    <?php
+                       foreach ($taxonomies_categorie as $key) {
+                        echo '<p>cathégorie : ' . $key -> name . '</p>';
+                       }
+                    ?>
                     <!-- affiche la taxonomie "Format" -->
-                    <p>Format :</p>
+                    <?php
+                       foreach ($taxonomies_format as $key) {
+                        echo '<p>Format : ' . $key -> name . '</p>';
+                       }
+                    ?>
                     <!-- affiche le custom field type -->
                     <?php
                         foreach ($custom_fields as $key => $value) {
                             // Vérifier si la clé est égale à "type"
                             if ($key === 'type') {
-                            echo '<p>' . $key . ': ' . implode(', ', $value) . '</p>';
+                            echo '<p>' . $key . ' : ' . implode(', ', $value) . '</p>';
                             }
                         }
                     ?>
                     <!-- affiche la date -->
-                    <p>Année: <?php echo get_the_date('Y'); ?></p>
+                    <p>Année : <?php echo get_the_date('Y'); ?></p>
                 </div>
                 <div class="photo">
-                    <?php the_post_thumbnail('large')?>
+                    <?php the_post_thumbnail('medium_large')?>
                 </div>
             </div>
+            
         <div class="contactContainer">
-            <p>Container contact</p>
+            <div class="contact">
+                <p>Cette photo vous intéresse ?</p>
+                <a href="#modal1" class="js-modal btnContact">Contact</a>
+            </div>
+
+            <div class="pagination">
+                
+                <?php
+                //récupere les variables
+                $prev_post = get_previous_post();
+                $next_post = get_next_post();
+            
+                ?>
+
+                <div class="paginationPhoto">
+                    <?php 
+                    if ( !empty($prev_post) ) :
+                        echo '<div class="paginationPhotoPrev">' . get_the_post_thumbnail( $prev_post->ID, array(80,80) ) . '</div>';
+                    endif;
+                    if ( !empty($next_post) ) :
+                        echo '<div class="paginationPhotoNext">' . get_the_post_thumbnail( $next_post->ID, array(80,80) ) . '</div>';
+                    endif;
+                    ?>
+                </div>
+                <div class="paginationBtn">
+                    <div class="previousLink">
+                    <?php
+                    // bouton post précédent
+
+                    // Vérifier si l'article précédent existe.
+                    if ($prev_post) {
+                        echo '<a href="' . get_permalink($prev_post->ID) . '">';
+                        echo '<img src="' . esc_url(get_template_directory_uri() . '/img/photoPrecedente.png') . '" alt="Photo précédente" />';
+                        echo '</a>';
+                    }
+                    ?>
+                    </div>
+                    <div class="nextLink">
+                    <?php
+                    //bouton post suivant
+                    
+                    //vérifier sur l'article suivant existe.
+                    if ($next_post) {
+                        echo '<a href="' . get_permalink($next_post->ID) . '">';
+                        echo '<img src="' . esc_url(get_template_directory_uri() . '/img/photoSuivante.png') . '" alt="Photo suivante" />';
+                        echo '</a>';
+                    }
+                    ?>
+                    </div>
+                </div> 
+            </div>
         </div>
-        <div class="otherContainer">
-            <p>Autre info</p>
+        <div class="otherContainer descriptionPhoto">
+            <h3>Vous aimerez aussi</h3>
+            <div class="otherThumbnail">
+                <?php the_post_thumbnail('medium')?>
+                <?php the_post_thumbnail('medium')?>
+            </div>
         </div>
     </div>
 

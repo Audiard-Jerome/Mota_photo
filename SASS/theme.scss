@@ -1,8 +1,14 @@
 //debug
-//* { outline: 1px solid green; }
+* { outline: 1px solid green; }
 
 //breakpoint
 $breakpoint__mobile: 769px;
+$max_width : 1440px;
+
+.max_width{
+    width: 100%;
+    max-width: $max_width;
+}
 
 //import variables
 @import "variables/colors.scss";
@@ -21,7 +27,16 @@ html {
     padding: 0;
     margin:0;
   }
-
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 ul{
     padding: 0px;
     margin: 0px;
@@ -35,9 +50,9 @@ a{
     color: $noir;
 }
 
+
+
 //header
-
-
 header {
     display: flex;
     top: var(--wp-admin--admin-bar--height);
@@ -157,13 +172,15 @@ footer{
 }
 
 @keyframes slideFromTop {
-    from { transform: translateY(-100px); }
-    to { transform: translateY(0px); }
+    0% { transform: translateY(-100px); }
+    80% { transform: translateY(10px); }
+    100% { transform: translateY(0px); }
 }
 
 @keyframes slideToBottom {
-    from { transform: translateY(0px); }
-    to { transform: translateY(100px); }
+    0% { transform: translateY(0px); }
+    20% { transform: translateY(-10px); }
+    100% { transform: translateY(100px); }
 }
 
 #modal1{
@@ -229,31 +246,92 @@ footer{
     flex-direction: column;
     .photoContainer{
         display: flex;
+        width: 100%;
         .infoContainer{
-            width: 50vw;
+            width: 50%;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: flex-start;
             gap: 20px;
-            padding-bottom : 37px;
-            border-bottom: solid 1px #000;
-            margin-right: 20px;
+            margin: 20px 20px 37px 20px;
             h2, p{
                 width: 50%;
-                margin: 0;
-                padding: 0;
+                 }
+            p {
+                font-family: 'space_mono_regular';
             }
         }
         .photo{
-            width: 50vw;
+            width: 50%;
+            overflow: hidden;
             img{
-                width: 100%;
-                object-fit: cover;
+            object-fit: contain;
             }
         }
-        .contactContainer{
-            height: 118px;
+    }
+    .contactContainer{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        height: 118px;
+        .contact{
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: solid 1px #000;
+            margin: 0px 20px 0px 20px;
+            .btnContact{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 2px;
+                background: $gris-medium;
+                box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.02);
+                width: 272px;
+                height: 50px;
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+        }
+        .pagination{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            .paginationPhoto{
+                margin-top : 5px;
+                .paginationPhotoPrev{
+                    display: none;
+                    &.active{
+                        display: unset;
+                    }
+                }
+                .paginationPhotoNext{
+                    display: none;
+                    &.active{
+                        display: unset;
+                    }
+                }
+            }
+            .paginationBtn{
+                display: flex;
+                width: 80px;
+                justify-content: space-between;
+            }
+        }
+    }
+    .otherContainer{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+        margin-top: 80px;
+        margin-bottom: 110px;
+        .otherThumbnail{
+            display: flex;
+            justify-content: space-between;
         }
     }
 }
