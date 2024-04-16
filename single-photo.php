@@ -62,7 +62,7 @@ $taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
                     <p>Année : <?php echo get_the_date('Y'); ?></p>
                 </div>
                 <div class="photo">
-                    <?php the_post_thumbnail('medium_large')?>
+                    <?php the_post_thumbnail('large')?>
                 </div>
             </div>
             
@@ -122,8 +122,30 @@ $taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
         <div class="otherContainer descriptionPhoto">
             <h3>Vous aimerez aussi</h3>
             <div class="otherThumbnail">
-                <?php the_post_thumbnail('medium')?>
-                <?php the_post_thumbnail('medium')?>
+            <?php 
+
+            $categorie = array_map(function ($term) {
+                return $term->term_id;
+            }, get_the_terms(get_post(), 'custom_categorie'));
+
+
+            $query = new WP_Query([
+                            'post__not_in' => [get_the_ID()],
+                            'post_type' => 'photo',
+                            'posts_per_page' => 2,
+                            'orderby' => 'rand',
+                            'tax_query' => [
+                                [
+                                'taxonomy' => 'custom_categorie',
+                                'terms' => $categorie,
+                                ]
+                             ],
+                            ]);
+                            while ($query->have_posts()) : $query->the_post();
+                            get_template_part('templates_part/photo_block');
+                            endwhile;
+                             wp_reset_postdata(); ?>
+                            
             </div>
         </div>
     </div>

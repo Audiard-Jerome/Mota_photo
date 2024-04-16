@@ -1,1 +1,13 @@
-<p>Le bloc d’affichage d’une photo de la liste, utilisé dans la zone de photos apparentées, va être réutilisé sur la page d’accueil. Enregistrez donc le code sous forme de template, par exemple dans “/templates_parts/photo_block.php”, pour pouvoir facilement le réutiliser plus tard.</p>
+<?php
+/**
+ * Template part for displaying photo.
+ *
+ * @package Mona-photo
+ */
+?>
+
+<div class="photo_block">
+    <?php 
+    the_post_thumbnail('medium_large');
+    ?>
+</div>
