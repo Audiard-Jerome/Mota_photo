@@ -2,7 +2,7 @@
 /**
  * Le modèle de publication unique pour les photos.
  *
- * @package votre-theme
+ * @package Mona-Photo
  */
 
 get_header();

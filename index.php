@@ -1,7 +1,9 @@
 <?php get_header(); ?>
-<div class="containerHero">
-    <h1>Photographe event</h1>
-</div>
+
+<!-- Recuperer le block hero -->
+<?php get_template_part('templates_part/hero'); ?>
+
+
 
 <a href="#modal1" class="js-modal">Ouvrir la boite modale</a>
 
