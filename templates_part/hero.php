@@ -19,10 +19,11 @@ $query = new WP_Query([
                     ]
                  ],
                 ]);
-        while ($query->have_posts()) : $query->the_post();
-        echo '<div class="containerHero">';
-        echo '<h1>' . $tagline . '</h1>';
-        the_post_thumbnail('full');
-        echo '</div>';
-        endwhile;
-        wp_reset_postdata(); ?>
+while ($query->have_posts()) : $query->the_post();
+    echo '<div class="containerHero">';
+    echo '<h1>' . $tagline . '</h1>';
+    the_post_thumbnail('full');
+    echo '</div>';
+    endwhile;
+wp_reset_postdata(); 
+?>

@@ -69,7 +69,7 @@ $taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
         <div class="contactContainer">
             <div class="contact">
                 <p>Cette photo vous intéresse ?</p>
-                <a href="#modal1" class="js-modal btnContact">Contact</a>
+                <a href="#modal1" class="js-modal btn">Contact</a>
             </div>
 
             <div class="pagination">
