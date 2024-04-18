@@ -19,10 +19,10 @@ $max_width : 1440px;
 @import "../font/font.scss";
 
 //import header
-@import "templates_parts/header.scss";
+@import "templates_part/header.scss";
 
 //import footer
-@import "templates_parts/footer.scss";
+@import "templates_part/footer.scss";
 
 //import menu burger
 @import "templates_part/burger.scss";
@@ -37,10 +37,10 @@ $max_width : 1440px;
 @import "templates_part/hero.scss";
 
 //import modale
-@import "template_part/modale.scss";
+@import "templates_part/modale.scss";
 
 //import Single photo
-@import "template_part/single_photo.scss";
+@import "templates_part/single_photo.scss";
 
 //style
 
@@ -96,7 +96,12 @@ a {
     }
 }
 
+// test ajax
 
+button {
+    width: 200px;
+    height: 50px;
+}
 
 //responsive
 
@@ -125,8 +130,7 @@ a {
 
     .menuLinkMobile.active {
         display: flex;
-        animation: fadeIn 0.3s both;
-
+        animation: slide 1s both;
         ul {
             flex-direction: column;
             justify-content: center;
@@ -152,4 +156,14 @@ a {
             padding: 43px 0px 43px 0px;
         }
     }
+}
+
+@keyframes slide {
+0% {
+    transform: translateX(100vw);
+}
+
+100% {
+    transform: translateX(0px);
+}
 }

@@ -67,8 +67,18 @@ $query = new WP_Query([
 
 <div class="btnContainer">
     <div class="btn">Charger plus</div>
+    
 </div>
-
+<!-- test ajax -->
+<div class="btnContainer">
+    <button
+	class="js-load-comments"
+    data-postid="<?php echo get_the_ID(); ?>"
+    data-nonce="<?php echo wp_create_nonce('capitaine_load_comments'); ?>"
+    data-action="capitaine_load_comments"
+    data-ajaxurl="<?php echo admin_url( 'admin-ajax.php' ); ?>"
+    >Test AJAX</button>
+</div>
 
 
 <?php get_footer(); ?>
