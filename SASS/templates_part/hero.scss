@@ -1,0 +1,28 @@
+//container Hero
+
+.containerHero {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+    overflow: hidden;
+    background-color: white;
+
+    h1 {
+        font-family: 'space_mono_bold_italic';
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: #FFF;
+        font-size: 6rem;
+        text-transform: uppercase;
+        position: absolute;
+        text-align: center;
+        color: transparent;
+    }
+    img {
+        max-width: $max_width;
+        height: auto;
+    }
+
+}

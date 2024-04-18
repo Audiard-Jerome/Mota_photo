@@ -31,20 +31,33 @@
 
 <div class="CatalogueContainer">
 <?php 
+//catégorie a afficher
+$categorie = array('concert', 'mariage', 'reception', 'television');
+//format a afficher
+$format = array('paysage', 'portrait');
+//ordre 'DESC' = décroissant 'ASC' = croissant
+$order = 'DESC';
+//Nombre de photo a afficher
+$nbrPost = '8';
+
 $query = new WP_Query([
     'post_type' => 'photo',
-    'posts_per_page' => 8,
+    'posts_per_page' => $nbrPost,
+    'order' => $order,
     'orderby' => 'date',
-    // 'tax_query' => [
-    //     [
-    //     'taxonomy' => 'custom_categorie',
-    //     'terms' => $categorie,
-    //     ],
-    //     [
-    //     'taxonomy' => 'custom_format',
-    //     'terms' => $format,
-    //         ]
-    // ],
+    'tax_query' => array(
+        'relation' => 'AND',
+        array(
+            'taxonomy' => 'custom_categorie',
+            'field' => 'slug',
+            'terms' => $categorie,
+        ),
+        array(
+            'taxonomy' => 'custom_format',
+            'field' => 'slug',
+            'terms' => $format,
+        )
+        ),
     ]);
     while ($query->have_posts()) : $query->the_post();
         get_template_part('templates_part/photo_block');

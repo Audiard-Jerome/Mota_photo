@@ -1,0 +1,22 @@
+//footer
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    border-top : solid 1px black;
+
+    .menu {
+        display: flex;
+        gap: 86px;
+        align-items: center;
+        justify-content: center;
+
+        a,
+        p {
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin: 0px;
+        }
+    }
+}
