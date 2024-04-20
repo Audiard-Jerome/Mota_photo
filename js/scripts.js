@@ -47,5 +47,3 @@ window.addEventListener('keydown', function(e) {
     }
 })
 
-// test ajax
-

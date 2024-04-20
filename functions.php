@@ -79,3 +79,17 @@ add_filter('wp_nav_menu_items', 'add_custom_menu_footer_item', 10, 2);
 add_filter( 'wpcf7_load_js', '__return_false' );
 add_filter( 'wpcf7_load_css', '__return_false' );
 
+//Charge le script Ajax.js
+function capitaine_assets() {
+
+	// …
+
+	// Charger notre script
+  wp_enqueue_script( 
+		'capitaine', 
+		get_template_directory_uri() . '/js/ajax.js', [ 'jquery' ], 
+	  '1.0', 
+	  true 
+   );
+}
+add_action( 'wp_enqueue_scripts', 'capitaine_assets' );

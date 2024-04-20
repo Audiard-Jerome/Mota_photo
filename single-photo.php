@@ -1,12 +1,9 @@
 <?php
-/**
- * Le modèle de publication unique pour les photos.
- *
- * @package Mona-Photo
- */
 
 get_header();
-
+?>
+<main>
+<?php
 if (have_posts()) {
     while (have_posts()) {
         the_post();
@@ -149,7 +146,7 @@ $taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
             </div>
         </div>
     </div>
-
+</main>
 
         
         <?php

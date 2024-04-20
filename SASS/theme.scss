@@ -5,7 +5,7 @@
 
 //breakpoint
 $breakpoint__mobile: 769px;
-$max_width : 1440px;
+$max_width : 1920px;
 
 .max_width {
     width: 100%;
@@ -19,19 +19,19 @@ $max_width : 1440px;
 @import "../font/font.scss";
 
 //import header
-@import "templates_part/header.scss";
+@import 'partial/header.scss';
 
 //import footer
-@import "templates_part/footer.scss";
+@import "partial/footer.scss";
 
 //import menu burger
-@import "templates_part/burger.scss";
+@import "partial/burger.scss";
 
 //import wordpress css
-@import "templates_part/wordpress.scss";
+@import "partial/wordpress.scss";
 
 //inport index for index.php
-@import "templates_part/index.scss";
+@import "partial/index.scss";
 
 //imports hero
 @import "templates_part/hero.scss";
@@ -50,21 +50,10 @@ html {
     margin: 0;
 }
 
-body {
+main {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-
-}
-
-ul {
-    padding: 0px;
-    margin: 0px;
 }
 
 li {
