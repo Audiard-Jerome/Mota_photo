@@ -80,16 +80,64 @@ add_filter( 'wpcf7_load_js', '__return_false' );
 add_filter( 'wpcf7_load_css', '__return_false' );
 
 //Charge le script Ajax.js
-function capitaine_assets() {
-
-	// …
 
 	// Charger notre script
-  wp_enqueue_script( 
-		'capitaine', 
-		get_template_directory_uri() . '/js/ajax.js', [ 'jquery' ], 
-	  '1.0', 
-	  true 
-   );
+// Enregistrer le script JavaScript dans le thème
+function theme_enqueue_scripts() {
+    wp_enqueue_script('custom-ajax', get_template_directory_uri() . '/js/ajax.js', array(), '1.0', true);
+	wp_add_inline_script( 'custom-ajax', 'const MYSCRIPT = ' . json_encode( array(
+		'ajaxurl' => admin_url( 'admin-ajax.php' ),
+	) ), 'before' );
 }
-add_action( 'wp_enqueue_scripts', 'capitaine_assets' );
+
+add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
+
+
+
+//Ajoute la variable ajaxurl.
+
+
+
+// post ajax
+add_action('wp_ajax_load_more_photos', 'load_more_photos');
+add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
+
+function load_more_photos() {
+    $categorie = array('concert', 'mariage', 'reception', 'television');
+    $format = array('paysage', 'portrait');
+    $order = 'DESC';
+    $nbrPost = '8';
+    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    $offset = ($page - 1) * $nbrPost;
+
+    $query = new WP_Query([
+        'post_type' => 'photo',
+        'posts_per_page' => $nbrPost,
+        'order' => $order,
+        'orderby' => 'date',
+        'offset' => $offset,
+        'tax_query' => array(
+            'relation' => 'AND',
+            array(
+                'taxonomy' => 'custom_categorie',
+                'field' => 'slug',
+                'terms' => $categorie,
+            ),
+            array(
+                'taxonomy' => 'custom_format',
+                'field' => 'slug',
+                'terms' => $format,
+            )
+        ),
+    ]);
+
+    $posts = array();
+    while ($query->have_posts()) : $query->the_post();
+        ob_start();
+        get_template_part('templates_part/photo_block');
+        $posts[] = ob_get_clean();
+    endwhile;
+
+    echo json_encode($posts);
+    exit;
+}

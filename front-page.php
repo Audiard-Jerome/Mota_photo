@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="CatalogueContainer">
+<div id="posts-container" class="CatalogueContainer">
 <?php 
 //catégorie a afficher
 $categorie = array('concert', 'mariage', 'reception', 'television');
@@ -66,29 +66,9 @@ $query = new WP_Query([
 </div>
 
 <div class="btnContainer">
-    <div class="btn">Charger plus</div>
-    
+    <button id="load-more-btn">Charger plus de photos</button> 
 </div>
-<!-- test ajax -->
-<div class="btnContainer">
-    <button
-	class="js-load-comments"
-    data-postid="<?php echo get_the_ID(); ?>"
-    data-nonce="<?php echo wp_create_nonce('capitaine_load_comments'); ?>"
-    data-action="capitaine_load_comments"
-    data-ajaxurl="<?php echo admin_url( 'admin-ajax.php' ); ?>"
-    >
-    Test AJAX
-    </button>
-</div>
-<!-- test buffer php -->
-<?php
-ob_start();
-echo "Hello World!";
-$contents = ob_get_clean();
-echo "The contents of the buffer are: ";
-echo $contents;
-?>
+
 </main>
 
 <?php get_footer(); ?>

@@ -1,7 +1,7 @@
 //debug
-* {
-     outline: 1px solid green;
- }
+// * {
+//      outline: 1px solid green;
+//  }
 
 //breakpoint
 $breakpoint__mobile: 769px;
@@ -44,7 +44,7 @@ $max_width : 1920px;
 
 //style
 
-html {
+body {
     font-family: "space_mono_regular";
     padding: 0;
     margin: 0;
