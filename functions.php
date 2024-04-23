@@ -106,9 +106,9 @@ function load_more_photos() {
     $categorie = array('concert', 'mariage', 'reception', 'television');
     $format = array('paysage', 'portrait');
     $order = 'DESC';
-    $nbrPost = '8'; //nombre de post en plus
-    $page = isset($_POST['page']) ? $_POST['page'] : null;
-    $offset = $page * 8; //offset
+    $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+    $index = isset($_POST['index']) ? $_POST['index'] : null;
+    $offset = $index * $nbrPost; //offset
 
     $query = new WP_Query([
         'post_type' => 'photo',
@@ -141,3 +141,46 @@ function load_more_photos() {
     echo json_encode($posts);
     exit;
 }
+
+//fonction filtre
+function filtre_photos() {
+    
+$categorie = array('concert', 'mariage', 'reception', 'television');
+$format = array('paysage', 'portrait');
+$order = 'DESC';
+$nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+$page = isset($_POST['page']) ? $_POST['page'] : null;
+$offset = $page * $nbrPost; //offset
+
+$query = new WP_Query([
+    'post_type' => 'photo',
+    'posts_per_page' => $nbrPost,
+    'order' => $order,
+    'orderby' => 'date',
+    'offset' => $offset,
+    'tax_query' => array(
+        'relation' => 'AND',
+        array(
+            'taxonomy' => 'custom_categorie',
+            'field' => 'slug',
+            'terms' => $categorie,
+        ),
+        array(
+            'taxonomy' => 'custom_format',
+            'field' => 'slug',
+            'terms' => $format,
+        )
+    ),
+]);
+
+$posts = array();
+while ($query->have_posts()) : $query->the_post();
+    ob_start();
+    get_template_part('templates_part/photo_block');
+    $posts[] = ob_get_clean();
+endwhile;
+
+echo json_encode($posts);
+exit;
+}
+
