@@ -4,7 +4,8 @@ console.log('Ajax JS chargé')
 document.addEventListener("DOMContentLoaded", function() {
     var loadMoreButton = document.getElementById("load-more-btn");
     var container = document.getElementById("posts-container");
-    var page = 2; // Commencez à charger à partir de la deuxième page
+    var index = 1; // index en cours.
+    console.log(index);
     
     loadMoreButton.addEventListener("click", function() {
         var xhr = new XMLHttpRequest();
@@ -17,12 +18,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     newPosts.forEach(function(post) {
                         container.innerHTML += post;
                     });
-                    page++; // Incrémentez la page pour charger la suivante lors du prochain clic
-                } else {
-                    loadMoreButton.style.display = "none"; // Masquez le bouton s'il n'y a plus de photos à charger
+                    index++; // ajoute 1 a l'index
+                    console.log(index);
                 }
             }
         };
-        xhr.send("action=load_more_photos&page=" + page);
+        xhr.send("action=load_more_photos&page=" + index);
     });
 });

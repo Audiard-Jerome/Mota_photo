@@ -106,9 +106,9 @@ function load_more_photos() {
     $categorie = array('concert', 'mariage', 'reception', 'television');
     $format = array('paysage', 'portrait');
     $order = 'DESC';
-    $nbrPost = '8';
-    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
-    $offset = ($page - 1) * $nbrPost;
+    $nbrPost = '8'; //nombre de post en plus
+    $page = isset($_POST['page']) ? $_POST['page'] : null;
+    $offset = $page * 8; //offset
 
     $query = new WP_Query([
         'post_type' => 'photo',
