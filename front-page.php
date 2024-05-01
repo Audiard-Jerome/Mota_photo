@@ -64,7 +64,6 @@ $query = new WP_Query([
     endwhile;
     wp_reset_postdata(); ?>
 </div>
-
 <div class="btnContainer">
     <button id="load-more-btn" class="btn">Charger plus</button> 
 </div>

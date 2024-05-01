@@ -79,36 +79,33 @@ add_filter('wp_nav_menu_items', 'add_custom_menu_footer_item', 10, 2);
 add_filter( 'wpcf7_load_js', '__return_false' );
 add_filter( 'wpcf7_load_css', '__return_false' );
 
-//Charge le script Ajax.js
+//Charge le script Ajax.js et création de ajaxurl et ajaxNonce
 
-	// Charger notre script
-// Enregistrer le script JavaScript dans le thème
-function theme_enqueue_scripts() {
+function ajax_enqueue_scripts() {
     wp_enqueue_script('custom-ajax', get_template_directory_uri() . '/js/ajax.js', array(), '1.0', true);
 	wp_add_inline_script( 'custom-ajax', 'const MYSCRIPT = ' . json_encode( array(
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        'ajaxNonce' => wp_create_nonce( 'ajaxNonce' )
+        // 'ajaxNonce' => 'test'
 	) ), 'before' );
 }
 
-add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
-
-
-
-//Ajoute la variable ajaxurl.
-
-
+add_action('wp_enqueue_scripts', 'ajax_enqueue_scripts');
 
 // post ajax
 add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
 function load_more_photos() {
+    //vérifie le nonce
+    check_ajax_referer( 'ajaxNonce', 'nonce');
+
     $categorie = array('concert', 'mariage', 'reception', 'television');
     $format = array('paysage', 'portrait');
     $order = 'DESC';
     $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
-    $index = isset($_POST['index']) ? $_POST['index'] : null;
-    $offset = $index * $nbrPost; //offset
+    $index = isset($_POST['index']) ? sanitize_text_field($_POST['index']) : null;
+    $offset = $index * $nbrPost; //offset refaire l'algo
 
     $query = new WP_Query([
         'post_type' => 'photo',
@@ -138,49 +135,66 @@ function load_more_photos() {
         $posts[] = ob_get_clean();
     endwhile;
 
-    echo json_encode($posts);
+    $totalPosts = $query->found_posts; // Nombre total de publications correspondantes à la requête
+
+    $response = array(
+        'posts' => $posts,
+        'has_more_posts' => ($totalPosts > $offset + $nbrPost) // Vérifie s'il y a encore des publications à charger
+    );
+
+    echo json_encode($response);
+
     exit;
 }
 
-//fonction filtre
-function filtre_photos() {
+
+
+// //fonction filtre
+// function filtre_photos() {
     
-$categorie = array('concert', 'mariage', 'reception', 'television');
-$format = array('paysage', 'portrait');
-$order = 'DESC';
-$nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
-$page = isset($_POST['page']) ? $_POST['page'] : null;
-$offset = $page * $nbrPost; //offset
+// $categorie = array('concert', 'mariage', 'reception', 'television');
+// $format = array('paysage', 'portrait');
+// $order = 'DESC';
+// $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+// $page = isset($_POST['page']) ? $_POST['page'] : null;
+// $offset = $page * $nbrPost; //offset
 
-$query = new WP_Query([
-    'post_type' => 'photo',
-    'posts_per_page' => $nbrPost,
-    'order' => $order,
-    'orderby' => 'date',
-    'offset' => $offset,
-    'tax_query' => array(
-        'relation' => 'AND',
-        array(
-            'taxonomy' => 'custom_categorie',
-            'field' => 'slug',
-            'terms' => $categorie,
-        ),
-        array(
-            'taxonomy' => 'custom_format',
-            'field' => 'slug',
-            'terms' => $format,
-        )
-    ),
-]);
+// //vérifie le nonce
 
-$posts = array();
-while ($query->have_posts()) : $query->the_post();
-    ob_start();
-    get_template_part('templates_part/photo_block');
-    $posts[] = ob_get_clean();
-endwhile;
+// if (! wp_verify_nonce( $_REQUEST['btn_chargerPlus'])) {
 
-echo json_encode($posts);
-exit;
-}
+// $query = new WP_Query([
+//     'post_type' => 'photo',
+//     'posts_per_page' => $nbrPost,
+//     'order' => $order,
+//     'orderby' => 'date',
+//     'offset' => $offset,
+//     'tax_query' => array(
+//         'relation' => 'AND',
+//         array(
+//             'taxonomy' => 'custom_categorie',
+//             'field' => 'slug',
+//             'terms' => $categorie,
+//         ),
+//         array(
+//             'taxonomy' => 'custom_format',
+//             'field' => 'slug',
+//             'terms' => $format,
+//         )
+//     ),
+// ]);
+
+// $posts = array();
+// while ($query->have_posts()) : $query->the_post();
+//     ob_start();
+//     get_template_part('templates_part/photo_block');
+//     $posts[] = ob_get_clean();
+// endwhile;
+
+// echo json_encode($posts);
+// exit;
+// }
+// } {
+//     wp_send_json_error( "Vous n’avez pas l’autorisation d’effectuer cette action.", 403 );
+// }
 
