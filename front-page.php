@@ -38,11 +38,11 @@ $format = array('paysage', 'portrait');
 //ordre 'DESC' = décroissant 'ASC' = croissant
 $order = 'DESC';
 //Nombre de photo a afficher
-$nbrPost = '8';
+$nbrPostOrigin = '8';
 
 $query = new WP_Query([
     'post_type' => 'photo',
-    'posts_per_page' => $nbrPost,
+    'posts_per_page' => $nbrPostOrigin,
     'order' => $order,
     'orderby' => 'date',
     'tax_query' => array(

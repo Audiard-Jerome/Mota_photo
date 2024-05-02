@@ -97,15 +97,16 @@ add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
 function load_more_photos() {
-    //vérifie le nonce
+    //vérifie le jeton nonce
     check_ajax_referer( 'ajaxNonce', 'nonce');
 
     $categorie = array('concert', 'mariage', 'reception', 'television');
     $format = array('paysage', 'portrait');
     $order = 'DESC';
     $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+    //$nbrPostOrigin = '8' //nombre de post a l'origine
     $index = isset($_POST['index']) ? sanitize_text_field($_POST['index']) : null;
-    $offset = $index * $nbrPost; //offset refaire l'algo
+    $offset = $nbrPostOrigin + ($nbrPost * ($index)); // calcul de l'offset a revoir
 
     $query = new WP_Query([
         'post_type' => 'photo',
@@ -149,52 +150,55 @@ function load_more_photos() {
 
 
 
-// //fonction filtre
-// function filtre_photos() {
-    
-// $categorie = array('concert', 'mariage', 'reception', 'television');
-// $format = array('paysage', 'portrait');
-// $order = 'DESC';
-// $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
-// $page = isset($_POST['page']) ? $_POST['page'] : null;
-// $offset = $page * $nbrPost; //offset
+//fonction filtre
+function load_filtre_photos() {
+    //vérifie le jeton nonce
+    // check_ajax_referer( 'ajaxNonce', 'nonce');
 
-// //vérifie le nonce
+    $categorie = array('concert', 'mariage', 'reception', 'television');
+    $format = array('paysage', 'portrait');
+    $order = 'DESC';
+    $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+    // $nbrPostOrigin = '8' //nombre de post a l'origine
+    $index = isset($_POST['index']) ? sanitize_text_field($_POST['index']) : null;
+    $offset = $nbrPostOrigin + ($nbrPost * ($index - 1)); // calcul de l'offset
 
-// if (! wp_verify_nonce( $_REQUEST['btn_chargerPlus'])) {
+    $query = new WP_Query([
+        'post_type' => 'photo',
+        'posts_per_page' => $nbrPost,
+        'order' => $order,
+        'orderby' => 'date',
+        'offset' => $offset,
+        'tax_query' => array(
+            'relation' => 'AND',
+            array(
+                'taxonomy' => 'custom_categorie',
+                'field' => 'slug',
+                'terms' => $categorie,
+            ),
+            array(
+                'taxonomy' => 'custom_format',
+                'field' => 'slug',
+                'terms' => $format,
+            )
+        ),
+    ]);
 
-// $query = new WP_Query([
-//     'post_type' => 'photo',
-//     'posts_per_page' => $nbrPost,
-//     'order' => $order,
-//     'orderby' => 'date',
-//     'offset' => $offset,
-//     'tax_query' => array(
-//         'relation' => 'AND',
-//         array(
-//             'taxonomy' => 'custom_categorie',
-//             'field' => 'slug',
-//             'terms' => $categorie,
-//         ),
-//         array(
-//             'taxonomy' => 'custom_format',
-//             'field' => 'slug',
-//             'terms' => $format,
-//         )
-//     ),
-// ]);
+    $posts = array();
+    while ($query->have_posts()) : $query->the_post();
+        ob_start();
+        get_template_part('templates_part/photo_block');
+        $posts[] = ob_get_clean();
+    endwhile;
 
-// $posts = array();
-// while ($query->have_posts()) : $query->the_post();
-//     ob_start();
-//     get_template_part('templates_part/photo_block');
-//     $posts[] = ob_get_clean();
-// endwhile;
+    $totalPosts = $query->found_posts; // Nombre total de publications correspondantes à la requête
 
-// echo json_encode($posts);
-// exit;
-// }
-// } {
-//     wp_send_json_error( "Vous n’avez pas l’autorisation d’effectuer cette action.", 403 );
-// }
+    $response = array(
+        'posts' => $posts,
+        'has_more_posts' => ($totalPosts > $offset + $nbrPost) // Vérifie s'il y a encore des publications à charger
+    );
 
+    echo json_encode($response);
+
+    exit;
+}
