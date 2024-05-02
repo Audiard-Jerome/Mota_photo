@@ -35,33 +35,69 @@ document.addEventListener("DOMContentLoaded", loadMorePhoto);
 
 // récupere la variable selectionné.
 
+let valeurFiltreCategorie = '';
+let valeurFiltreFormat = '';
+let valeurFiltreTrier = 'DESC';
+
 document.addEventListener("DOMContentLoaded", function () {
     const filtreCatgegorie = document.querySelectorAll(".filtreCategorie .filtreItems");
     filtreCatgegorie.forEach(element => {
         element.addEventListener("click", function (event) {
-            let valeurFiltreCategorie = event.target.dataset.categorie
+            // met la valeur du filtre dans valeur filtre categorie
+            valeurFiltreCategorie = event.target.dataset.categorie
+            // Enleve le rouge
+            filtreCatgegorie.forEach(item => {
+                item.style.removeProperty('background')
+                item.style.removeProperty('color')
+            });
+            // colorie le lien en rouge au click
+            event.target.style.background = "#E00000";
+            event.target.style.color = "#FFFFFF";
             console.log(valeurFiltreCategorie)
+            //charge les photos
+            loadFiltrePhoto()
         })
     });
     const filtreFormat = document.querySelectorAll(".filtreFormat .filtreItems");
     filtreFormat.forEach(element => {
         element.addEventListener("click", function (event) {
-            let valeurFiltreFormat = event.target.dataset.format
+            valeurFiltreFormat = event.target.dataset.format
+            filtreFormat.forEach(item => {
+                item.style.removeProperty('background')
+                item.style.removeProperty('color')
+            });
+            // colorie le lien en rouge au click
+            event.target.style.background = "#E00000";
+            event.target.style.color = "#FFFFFF";
             console.log(valeurFiltreFormat)
+            loadFiltrePhoto()
+
+
         })
     });
     const filtreTrier = document.querySelectorAll(".filtreTrier .filtreItems");
     filtreTrier.forEach(element => {
         element.addEventListener("click", function (event) {
-            let valeurFiltreTrier = event.target.dataset.trier
+            valeurFiltreTrier = event.target.dataset.trier
+            filtreTrier.forEach(item => {
+                item.style.removeProperty('background')
+                item.style.removeProperty('color')
+            });
+            event.target.style.background = "#E00000";
+            event.target.style.color = "#FFFFFF";
             console.log(valeurFiltreTrier)
-            loadMorePhoto()
+            loadFiltrePhoto()
+
         })
     });
 });
 
+// fonction pour charger les photos en fonction des filtres.
+
+
 function loadFiltrePhoto() {
     const container = document.getElementById("posts-container");
+    let index = 1; // index en cours.
     const xhr = new XMLHttpRequest();
     xhr.open("POST", MYSCRIPT.ajaxurl, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -69,12 +105,21 @@ function loadFiltrePhoto() {
         if (this.status == 200) {
             let response = JSON.parse(this.responseText);
             if (response.posts.length > 0) {
+                // on vide le container
+                container.innerHTML = '';
+                //on ajoute les nouvelles photos
                 response.posts.forEach(function (post) {
                     container.innerHTML += post;
                 });
+                index++; // ajoute 1 a l'index
+
             }
         }
     };
-    xhr.send("action=load_more_photos");
-
+    xhr.send(
+        "action=load_filtre_photos&index=" + index +
+        "&valeurFiltreCategorie=" + valeurFiltreCategorie +
+        "&valeurFiltreFormat=" + valeurFiltreFormat +
+        "&valeurFiltreTrier=" + valeurFiltreTrier +
+        "&nonce=" + MYSCRIPT.ajaxNonce);
 };

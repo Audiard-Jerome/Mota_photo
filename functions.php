@@ -96,6 +96,9 @@ add_action('wp_enqueue_scripts', 'ajax_enqueue_scripts');
 add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
+add_action('wp_ajax_load_filtre_photos', 'load_filtre_photos');
+add_action('wp_ajax_nopriv_load_filtre_photos', 'load_filtre_photos');
+
 function load_more_photos() {
     //vérifie le jeton nonce
     check_ajax_referer( 'ajaxNonce', 'nonce');
@@ -153,22 +156,22 @@ function load_more_photos() {
 //fonction filtre
 function load_filtre_photos() {
     //vérifie le jeton nonce
-    // check_ajax_referer( 'ajaxNonce', 'nonce');
+    check_ajax_referer( 'ajaxNonce', 'nonce');
 
-    $categorie = array('concert', 'mariage', 'reception', 'television');
-    $format = array('paysage', 'portrait');
-    $order = 'DESC';
+    $categorie = isset($_POST['valeurFiltreCategorie']) && !empty($_POST['valeurFiltreCategorie']) ? sanitize_text_field($_POST['valeurFiltreCategorie']) : array('concert', 'mariage', 'reception', 'television');
+    $format = isset($_POST['valeurFiltreFormat']) && !empty($_POST['valeurFiltreFormat'])? sanitize_text_field($_POST['valeurFiltreFormat']) : array('paysage', 'portrait');
+    $order = isset($_POST['valeurFiltreTrier']) && !empty($_POST['valeurFiltreTrier'])? sanitize_text_field($_POST['valeurFiltreTrier']) : 'DESC';
     $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
-    // $nbrPostOrigin = '8' //nombre de post a l'origine
+    $nbrPostOrigin = '8'; //nombre de post a l'origine
     $index = isset($_POST['index']) ? sanitize_text_field($_POST['index']) : null;
     $offset = $nbrPostOrigin + ($nbrPost * ($index - 1)); // calcul de l'offset
 
     $query = new WP_Query([
         'post_type' => 'photo',
-        'posts_per_page' => $nbrPost,
+        'posts_per_page' => '8',
         'order' => $order,
         'orderby' => 'date',
-        'offset' => $offset,
+        'offset' => '0',
         'tax_query' => array(
             'relation' => 'AND',
             array(
