@@ -4,28 +4,34 @@
 <?php get_template_part('templates_part/hero'); ?>
 
 <div class="filtreContainer">
-        <div class="filtreCategorie flexColumn">
-        <p class="btnFiltre">catégories</p>
-        <!-- récuperer tout les termes de la taxonomie custom_categorie -->         
-        <?php $custom_categories = get_terms(['taxonomy' => 'custom_categorie']);
-        foreach($custom_categories as $custom_categorie):
-            echo '<p class="filtreItems" data-categorie="' . $custom_categorie->slug . '">' . $custom_categorie->name . '</p>';
-        endforeach;
-        ?>
+        <div class="filtreCategorie flexColumn filtre">
+        <p class="btnFiltre ">catégories<span class="chevron"></span></p>
+        <div class="filtreItems">
+            <!-- récuperer tout les termes de la taxonomie custom_categorie -->         
+            <?php $custom_categories = get_terms(['taxonomy' => 'custom_categorie']);
+            foreach($custom_categories as $custom_categorie):
+                echo '<p class="filtreItem" data-categorie="' . $custom_categorie->slug . '">' . $custom_categorie->name . '</p>';
+            endforeach;
+            ?>
+        </div>
     </div>
-    <div class="filtreFormat flexColumn">
-        <p class="btnFiltre">Format</p>
-        <!-- récuperer tout les termes de la taxonomie custom_format -->         
-        <?php $custom_formats = get_terms(['taxonomy' => 'custom_format']);
-        foreach($custom_formats as $custom_format):
-            echo '<p class="filtreItems" data-format="' . $custom_format->slug . '">' . $custom_format->name . '</p>';
-        endforeach;
-        ?>
+    <div class="filtreFormat flexColumn filtre">
+        <p class="btnFiltre">Format<span class="chevron"></span></p>
+        <div class="filtreItems">
+            <!-- récuperer tout les termes de la taxonomie custom_format -->         
+            <?php $custom_formats = get_terms(['taxonomy' => 'custom_format']);
+            foreach($custom_formats as $custom_format):
+                echo '<p class="filtreItem" data-format="' . $custom_format->slug . '">' . $custom_format->name . '</p>';
+            endforeach;
+            ?>
+        </div>
     </div>
-    <div class="filtreTrier flexColumn">
-        <p class="btnFiltre">Tier par</p>
-        <p class="filtreItems" data-trier="desc" >A partir des plus récentes</p>
-        <p class="filtreItems" data-trier="asc" >A partir des plus anciennes</p>
+    <div class="filtreTrier flexColumn filtre">
+        <p class="btnFiltre">Tier par<span class="chevron"></span></p>
+        <div class="filtreItems">
+            <p class="filtreItem" data-trier="desc" >A partir des plus récentes</p>
+            <p class="filtreItem" data-trier="asc" >A partir des plus anciennes</p>
+        </div>
     </div>
 </div>
 
