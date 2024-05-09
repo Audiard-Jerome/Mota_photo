@@ -158,47 +158,67 @@ function load_filtre_photos() {
     //vérifie le jeton nonce
     check_ajax_referer( 'ajaxNonce', 'nonce');
 
-    $categorie = isset($_POST['valeurFiltreCategorie']) && !empty($_POST['valeurFiltreCategorie']) ? sanitize_text_field($_POST['valeurFiltreCategorie']) : array('concert', 'mariage', 'reception', 'television');
-    $format = isset($_POST['valeurFiltreFormat']) && !empty($_POST['valeurFiltreFormat'])? sanitize_text_field($_POST['valeurFiltreFormat']) : array('paysage', 'portrait');
+    $custom_categories = get_terms(['taxonomy' => 'custom_categorie']);
+    $categorie = array(); 
+    foreach($custom_categories as $custom_categorie):
+        $categorie[] = $custom_categorie->name; // stock tout les termes de la taxonomie catégorie dans une variable
+    endforeach;
+    
+    $custom_formats = get_terms(['taxonomy' => 'custom_format']);
+    $format = array();
+    foreach($custom_formats as $custom_format):
+        $format[] = $custom_format->name;// stock tout les termes de la taxonomie format dans une variable
+    endforeach;
+
+    $filtreCategorie = isset($_POST['valeurFiltreCategorie']) && !empty($_POST['valeurFiltreCategorie']) ? sanitize_text_field($_POST['valeurFiltreCategorie']) : $categorie;
+    $filtreFormat = isset($_POST['valeurFiltreFormat']) && !empty($_POST['valeurFiltreFormat'])? sanitize_text_field($_POST['valeurFiltreFormat']) : $format;
     $order = isset($_POST['valeurFiltreTrier']) && !empty($_POST['valeurFiltreTrier'])? sanitize_text_field($_POST['valeurFiltreTrier']) : 'DESC';
-    $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
-    $nbrPostOrigin = '8'; //nombre de post a l'origine
-    $index = isset($_POST['index']) ? sanitize_text_field($_POST['index']) : null;
-    $offset = $nbrPostOrigin + ($nbrPost * ($index - 1)); // calcul de l'offset
+    // $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+    // $nbrPostOrigin = '8'; //nombre de post a l'origine
+    $nbrPhoto = isset($_POST['index']) && !empty($_POST['index'])? sanitize_text_field($_POST['index']) : '8';
+    $offset = '0'; // calcul de l'offset
 
     $query = new WP_Query([
         'post_type' => 'photo',
         'posts_per_page' => '8',
         'order' => $order,
         'orderby' => 'date',
-        'offset' => '0',
+        'offset' => $offset,
         'tax_query' => array(
             'relation' => 'AND',
             array(
                 'taxonomy' => 'custom_categorie',
                 'field' => 'slug',
-                'terms' => $categorie,
+                'terms' => $filtreCategorie,
             ),
             array(
                 'taxonomy' => 'custom_format',
                 'field' => 'slug',
-                'terms' => $format,
+                'terms' => $filtreFormat,
             )
         ),
     ]);
 
     $posts = array();
-    while ($query->have_posts()) : $query->the_post();
+    
+    if ($query->have_posts()) {
+        while ($query->have_posts()) : $query->the_post();
+            ob_start();
+            get_template_part('templates_part/photo_block');
+            $posts[] = ob_get_clean();
+        endwhile;
+    } else {
         ob_start();
-        get_template_part('templates_part/photo_block');
+        echo 'Aucune photo trouvée. Essayez de changer de critères.';
         $posts[] = ob_get_clean();
-    endwhile;
+    }
 
     $totalPosts = $query->found_posts; // Nombre total de publications correspondantes à la requête
 
     $response = array(
         'posts' => $posts,
-        'has_more_posts' => ($totalPosts > $offset + $nbrPost) // Vérifie s'il y a encore des publications à charger
+        'has_more_posts' => ($totalPosts > $nbrPhoto), // Vérifie s'il y a encore des publications à charger
+        'nbrPhoto' => $totalPosts
     );
 
     echo json_encode($response);

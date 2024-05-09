@@ -129,15 +129,20 @@ document.addEventListener("DOMContentLoaded", function () {
 // fonction pour charger les photos en fonction des filtres.
 
 
+let index = 8; // nombre de photo affiché.
+
 function loadFiltrePhoto() {
+    
+    const loadMoreButton = document.getElementById("load-more-btn");
     const container = document.getElementById("posts-container");
-    let index = 1; // index en cours.
     const xhr = new XMLHttpRequest();
     xhr.open("POST", MYSCRIPT.ajaxurl, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onload = function () {
         if (this.status == 200) {
             let response = JSON.parse(this.responseText);
+            index = response.nbrPhoto;
+            console.log(index)
             if (response.posts.length > 0) {
                 // on vide le container
                 container.innerHTML = '';
@@ -145,17 +150,22 @@ function loadFiltrePhoto() {
                 response.posts.forEach(function (post) {
                     container.innerHTML += post;
                 });
-                index++; // ajoute 1 a l'index
-
+                if (response.has_more_posts) {
+                    loadMoreButton.style.display = 'unset'; // Masquer le bouton s'il n'y a plus de posts à charger
+                } else {
+                    loadMoreButton.style.display = 'none'; // Affiche le bouton s'il n'y a plus de posts à charger
+                }
             }
         }
     };
     xhr.send(
-        "action=load_filtre_photos&index=" + index +
-        "&valeurFiltreCategorie=" + valeurFiltreCategorie +
+        "action=load_filtre_photos&valeurFiltreCategorie=" + valeurFiltreCategorie +
         "&valeurFiltreFormat=" + valeurFiltreFormat +
         "&valeurFiltreTrier=" + valeurFiltreTrier +
-        "&nonce=" + MYSCRIPT.ajaxNonce);
+        "&nonce=" + MYSCRIPT.ajaxNonce +
+        "&index=" + index
+    );
+
 };
 
 

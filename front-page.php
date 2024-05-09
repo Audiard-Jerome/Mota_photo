@@ -9,8 +9,10 @@
         <div class="filtreItems">
             <!-- récuperer tout les termes de la taxonomie custom_categorie -->         
             <?php $custom_categories = get_terms(['taxonomy' => 'custom_categorie']);
+            $categorie = array(); 
             foreach($custom_categories as $custom_categorie):
                 echo '<p class="filtreItem" data-categorie="' . $custom_categorie->slug . '">' . $custom_categorie->name . '</p>';
+                $categorie[] = $custom_categorie->name; // stock tout les termes de la taxonomie catégorie dans une variable
             endforeach;
             ?>
         </div>
@@ -20,8 +22,10 @@
         <div class="filtreItems">
             <!-- récuperer tout les termes de la taxonomie custom_format -->         
             <?php $custom_formats = get_terms(['taxonomy' => 'custom_format']);
+            $format = array();
             foreach($custom_formats as $custom_format):
                 echo '<p class="filtreItem" data-format="' . $custom_format->slug . '">' . $custom_format->name . '</p>';
+                $format[] = $custom_format->name;// stock tout les termes de la taxonomie format dans une variable
             endforeach;
             ?>
         </div>
@@ -37,19 +41,12 @@
 
 <div id="posts-container" class="CatalogueContainer">
 <?php 
-//catégorie a afficher
-$categorie = array('concert', 'mariage', 'reception', 'television');
-//format a afficher
-$format = array('paysage', 'portrait');
-//ordre 'DESC' = décroissant 'ASC' = croissant
-$order = 'DESC';
-//Nombre de photo a afficher
-$nbrPostOrigin = '8';
+
 
 $query = new WP_Query([
     'post_type' => 'photo',
-    'posts_per_page' => $nbrPostOrigin,
-    'order' => $order,
+    'posts_per_page' => '2', // remttre 8
+    'order' => 'DESC',
     'orderby' => 'date',
     'tax_query' => array(
         'relation' => 'AND',
@@ -68,7 +65,9 @@ $query = new WP_Query([
     while ($query->have_posts()) : $query->the_post();
         get_template_part('templates_part/photo_block');
     endwhile;
-    wp_reset_postdata(); ?>
+    wp_reset_postdata(); 
+    
+    ?>
 </div>
 <div class="btnContainer">
     <button id="load-more-btn" class="btn">Charger plus</button> 
