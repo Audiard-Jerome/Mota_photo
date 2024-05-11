@@ -8,7 +8,6 @@ $breakpoint__mobile: 769px;
 $max_width : 1920px;
 
 .max_width {
-    width: 100%;
     max-width: $max_width;
 }
 
@@ -72,7 +71,7 @@ a {
     color: $noir;
 }
 
-.btn{
+.btn {
     display: flex;
     font-family: "space_mono_regular";
     width: 272px;
@@ -84,7 +83,8 @@ a {
     background-color: $gris-medium;
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.02);
     transition: background-color 0.5s ease-out, color 0.5s ease-out;
-    &:hover{
+
+    &:hover {
         font-weight: 700;
         background-color: #000;
         color: $background;
@@ -102,46 +102,7 @@ button {
 //responsive
 
 @media (max-width: $breakpoint__mobile) {
-    header {
-        flex-direction: column;
-    }
-
-    header .menu {
-        display: flex;
-        justify-content: space-around;
-        height: 72px; 
-
-        #menuLink {
-            display: none;
-        }
-
-        .logo {
-            padding-left: 0px;
-        }
-
-        .burger {
-            display: unset;
-        }
-    }
-
-    .menuLinkMobile.active {
-        display: flex;
-        animation: slide 1s both;
-        ul {
-            flex-direction: column;
-            justify-content: center;
-            gap: 18px;
-            height: calc(100vh - 72px);
-            width: 100vw;
-            background-color: $rouge;
-
-            a {
-                font-size: 2.75rem;
-                text-transform: uppercase;
-                color: #FFF;
-            }
-        }
-    }
+    
 
     footer {
         height: auto;
@@ -154,12 +115,3 @@ button {
     }
 }
 
-@keyframes slide {
-0% {
-    transform: translateX(100vw);
-}
-
-100% {
-    transform: translateX(0px);
-}
-}
