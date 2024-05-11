@@ -1,7 +1,7 @@
 //debug
-* {
-    outline: 1px solid green;
-}
+// * {
+//      outline: 1px solid green;
+//  }
 
 //breakpoint
 $breakpoint__mobile: 769px;
@@ -29,8 +29,15 @@ $max_width : 1920px;
 //import wordpress css
 @import "partial/wordpress.scss";
 
-//inport index for index.php
+//import index for index.php
 @import "partial/index.scss";
+
+//inmort photo-block
+@import "partial/photo_block.scss";
+
+
+//import lightbox
+@import "partial/lightbox.scss";
 
 //imports hero
 @import "templates_part/hero.scss";
@@ -43,7 +50,7 @@ $max_width : 1920px;
 
 //style
 
-html {
+body {
     font-family: "space_mono_regular";
     padding: 0;
     margin: 0;
@@ -68,7 +75,7 @@ a {
     display: flex;
     font-family: "space_mono_regular";
     width: 272px;
-    height: 50px;
+    height: 50px; 
     justify-content: center;
     align-items: center;
     border: none;

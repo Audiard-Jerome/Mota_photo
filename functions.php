@@ -11,6 +11,8 @@ function theme_enqueue_styles(){
 	wp_enqueue_script( 'script_modale', get_stylesheet_directory_uri() . '/js/scripts.js', array(), filemtime(get_stylesheet_directory() . '/js/scripts.js'), true );
 	//Script JS gestion du survol des liens de navigation dans la page d'info d'une photo.
 	wp_enqueue_script( 'script_mouseover', get_stylesheet_directory_uri() . '/js/mouseover.js', array(), filemtime(get_stylesheet_directory() . '/js/mouseover.js'), true );
+    //Script JS Lightbox
+    wp_enqueue_script( 'script_lightbox', get_stylesheet_directory_uri() . '/js/lightbox.js', array(), filemtime(get_stylesheet_directory() . '/js/lightbox.js'), true );
 }
 
 // Ajouter la prise en charge des images mises en avant
@@ -79,17 +81,149 @@ add_filter('wp_nav_menu_items', 'add_custom_menu_footer_item', 10, 2);
 add_filter( 'wpcf7_load_js', '__return_false' );
 add_filter( 'wpcf7_load_css', '__return_false' );
 
-//Charge le script Ajax.js
-function capitaine_assets() {
+//Charge le script Ajax.js et création de ajaxurl et ajaxNonce
 
-	// …
-
-	// Charger notre script
-  wp_enqueue_script( 
-		'capitaine', 
-		get_template_directory_uri() . '/js/ajax.js', [ 'jquery' ], 
-	  '1.0', 
-	  true 
-   );
+function ajax_enqueue_scripts() {
+    wp_enqueue_script('custom-ajax', get_template_directory_uri() . '/js/ajax.js', array(), '1.0', true);
+	wp_add_inline_script( 'custom-ajax', 'const MYSCRIPT = ' . json_encode( array(
+		'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        'ajaxNonce' => wp_create_nonce( 'ajaxNonce' )
+        // 'ajaxNonce' => 'test'
+	) ), 'before' );
 }
-add_action( 'wp_enqueue_scripts', 'capitaine_assets' );
+
+add_action('wp_enqueue_scripts', 'ajax_enqueue_scripts');
+
+// post ajax
+add_action('wp_ajax_load_more_photos', 'load_more_photos');
+add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
+
+add_action('wp_ajax_load_filtre_photos', 'load_filtre_photos');
+add_action('wp_ajax_nopriv_load_filtre_photos', 'load_filtre_photos');
+
+function load_more_photos() {
+    //vérifie le jeton nonce
+    check_ajax_referer( 'ajaxNonce', 'nonce');
+
+    $categorie = array('concert', 'mariage', 'reception', 'television');
+    $format = array('paysage', 'portrait');
+    $order = 'DESC';
+    $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+    //$nbrPostOrigin = '8' //nombre de post a l'origine
+    $index = isset($_POST['index']) ? sanitize_text_field($_POST['index']) : null;
+    $offset = $nbrPostOrigin + ($nbrPost * ($index)); // calcul de l'offset a revoir
+
+    $query = new WP_Query([
+        'post_type' => 'photo',
+        'posts_per_page' => $nbrPost,
+        'order' => $order,
+        'orderby' => 'date',
+        'offset' => $offset,
+        'tax_query' => array(
+            'relation' => 'AND',
+            array(
+                'taxonomy' => 'custom_categorie',
+                'field' => 'slug',
+                'terms' => $categorie,
+            ),
+            array(
+                'taxonomy' => 'custom_format',
+                'field' => 'slug',
+                'terms' => $format,
+            )
+        ),
+    ]);
+
+    $posts = array();
+    while ($query->have_posts()) : $query->the_post();
+        ob_start();
+        get_template_part('templates_part/photo_block');
+        $posts[] = ob_get_clean();
+    endwhile;
+
+    $totalPosts = $query->found_posts; // Nombre total de publications correspondantes à la requête
+
+    $response = array(
+        'posts' => $posts,
+        'has_more_posts' => ($totalPosts > $offset + $nbrPost) // Vérifie s'il y a encore des publications à charger
+    );
+
+    echo json_encode($response);
+
+    exit;
+}
+
+
+
+//fonction filtre
+function load_filtre_photos() {
+    //vérifie le jeton nonce
+    check_ajax_referer( 'ajaxNonce', 'nonce');
+
+    $custom_categories = get_terms(['taxonomy' => 'custom_categorie']);
+    $categorie = array(); 
+    foreach($custom_categories as $custom_categorie):
+        $categorie[] = $custom_categorie->name; // stock tout les termes de la taxonomie catégorie dans une variable
+    endforeach;
+    
+    $custom_formats = get_terms(['taxonomy' => 'custom_format']);
+    $format = array();
+    foreach($custom_formats as $custom_format):
+        $format[] = $custom_format->name;// stock tout les termes de la taxonomie format dans une variable
+    endforeach;
+
+    $filtreCategorie = isset($_POST['valeurFiltreCategorie']) && !empty($_POST['valeurFiltreCategorie']) ? sanitize_text_field($_POST['valeurFiltreCategorie']) : $categorie;
+    $filtreFormat = isset($_POST['valeurFiltreFormat']) && !empty($_POST['valeurFiltreFormat'])? sanitize_text_field($_POST['valeurFiltreFormat']) : $format;
+    $order = isset($_POST['valeurFiltreTrier']) && !empty($_POST['valeurFiltreTrier'])? sanitize_text_field($_POST['valeurFiltreTrier']) : 'DESC';
+    // $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
+    // $nbrPostOrigin = '8'; //nombre de post a l'origine
+    $nbrPhoto = isset($_POST['index']) && !empty($_POST['index'])? sanitize_text_field($_POST['index']) : '8';
+    $offset = '0'; // calcul de l'offset
+
+    $query = new WP_Query([
+        'post_type' => 'photo',
+        'posts_per_page' => '8',
+        'order' => $order,
+        'orderby' => 'date',
+        'offset' => $offset,
+        'tax_query' => array(
+            'relation' => 'AND',
+            array(
+                'taxonomy' => 'custom_categorie',
+                'field' => 'slug',
+                'terms' => $filtreCategorie,
+            ),
+            array(
+                'taxonomy' => 'custom_format',
+                'field' => 'slug',
+                'terms' => $filtreFormat,
+            )
+        ),
+    ]);
+
+    $posts = array();
+    
+    if ($query->have_posts()) {
+        while ($query->have_posts()) : $query->the_post();
+            ob_start();
+            get_template_part('templates_part/photo_block');
+            $posts[] = ob_get_clean();
+        endwhile;
+    } else {
+        ob_start();
+        echo 'Aucune photo trouvée. Essayez de changer de critères.';
+        $posts[] = ob_get_clean();
+    }
+
+    $totalPosts = $query->found_posts; // Nombre total de publications correspondantes à la requête
+
+    $response = array(
+        'posts' => $posts,
+        'has_more_posts' => ($totalPosts > $nbrPhoto), // Vérifie s'il y a encore des publications à charger
+        'nbrPhoto' => $totalPosts
+    );
+
+    echo json_encode($response);
+
+    exit;
+}

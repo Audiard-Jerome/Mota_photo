@@ -138,10 +138,16 @@ $taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
                                 ]
                              ],
                             ]);
+                            if ($query->have_posts()) {
                             while ($query->have_posts()) : $query->the_post();
                             get_template_part('templates_part/photo_block');
                             endwhile;
-                             wp_reset_postdata(); ?>
+                            } else {
+                                echo "Il n'y a pas d'autre photo de la même catégorie";
+                            }
+                            wp_reset_postdata();
+                             ?>
+                             
                             
             </div>
         </div>

@@ -1,0 +1,54 @@
+.photo_block:hover{
+    .opacity{
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+    }
+    img{
+        opacity: 0.6;
+    }
+}
+
+.photo_block{
+    position: relative;
+    background: $noir;
+    cursor: default;
+    .opacity{
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+    .iconEye{
+        background-image: url(../img/icon_eye.svg);
+        position : absolute;
+        height: 31px;
+        width: 46px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+    }
+    .iconFullscreen{
+        background-image: url(../img/icon_fullscreen.svg);
+        height: 34px;
+        width: 34px;
+        position : absolute;
+        top: 11px;
+        right: 18px;
+
+    }
+    .txt{
+        position : absolute;
+        bottom: 12px;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        font-family: "poppins_regular";
+        font-weight: 500;
+
+    }
+    .refPhoto{
+        left: 18px;
+    }
+    .catPhoto{
+        right: 18px;
+    }
+
+}
