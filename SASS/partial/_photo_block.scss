@@ -11,13 +11,13 @@
 .photo_block{
     position: relative;
     background: $noir;
-    cursor: pointer;
+    cursor: default;
     .opacity{
         opacity: 0;
         transition: opacity 0.5s ease-in-out;
     }
     .iconEye{
-        background-image: url(../img/Icon_eye.svg);
+        background-image: url(../img/icon_eye.svg);
         position : absolute;
         height: 31px;
         width: 46px;
@@ -27,7 +27,7 @@
 
     }
     .iconFullscreen{
-        background-image: url(../img/Icon_fullscreen.svg);
+        background-image: url(../img/icon_fullscreen.svg);
         height: 34px;
         width: 34px;
         position : absolute;

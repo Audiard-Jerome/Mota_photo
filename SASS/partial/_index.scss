@@ -3,7 +3,7 @@
 .btnFiltre {
     display: flex;
     width: 260px;
-    height: 44px;
+    // height: 44px;
     padding: 11px 18px;
     margin: 0px;
     border-radius: 8px;
@@ -13,6 +13,7 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    
     
     &.selected {
         border: 1px solid $bleu-CTA;
@@ -30,7 +31,6 @@
             transform: rotate(180deg);
         }
     }
-
     
 }
 
@@ -39,6 +39,7 @@
 
 .filtreItems {
     display: none;
+
 }
 
 .filtreItems.active{
@@ -57,12 +58,12 @@
     display: flex;
     align-items: center;
     padding: 0 24px;
-
     color: $bleu-fonce;
     margin: 0;
     height: 42px;
     box-sizing: border-box;
     width: 100%;
+
 
     &:hover {
         background: $rouge-tertiaire;
@@ -87,7 +88,6 @@
     .flexColumn {
         display: flex;
         flex-direction: column;
-
 
     }
 

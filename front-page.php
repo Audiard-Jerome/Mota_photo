@@ -45,7 +45,7 @@
 
 $query = new WP_Query([
     'post_type' => 'photo',
-    'posts_per_page' => '2', // remttre 8
+    'posts_per_page' => '8', // remttre 8
     'order' => 'DESC',
     'orderby' => 'date',
     'tax_query' => array(
@@ -72,6 +72,9 @@ $query = new WP_Query([
 <div class="btnContainer">
     <button id="load-more-btn" class="btn">Charger plus</button> 
 </div>
+<?php get_template_part('templates_part/lightbox'); ?>
+
+
 
 </main>
 

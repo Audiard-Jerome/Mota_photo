@@ -30,11 +30,15 @@ $max_width : 1920px;
 //import wordpress css
 @import "partial/wordpress.scss";
 
-//inport index for index.php
+//import index for index.php
 @import "partial/index.scss";
 
-//inport photo-block
+//inmort photo-block
 @import "partial/photo_block.scss";
+
+
+//import lightbox
+@import "partial/lightbox.scss";
 
 //imports hero
 @import "templates_part/hero.scss";
