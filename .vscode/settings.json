@@ -3,11 +3,11 @@
         {
             "format": "compressed",
             "extensionName": ".min.css",
-            "savePath": "/motaphoto/css/",
+            "savePath": "/css/",
         }
     ],
     "liveSassCompile.settings.includeItems": [
-        "/motaphoto/SASS/theme.scss",
+        "/SASS/theme.scss",
     ],
     "liveSassCompile.settings.generateMap":false
 }
