@@ -1,75 +1,81 @@
-#modal2{
-    display: none;
+#lightbox {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    top:0;
+    top: 0;
     z-index: 99;
 }
 
-.modal2-wrapper{
-    background-color:rgba(0, 0, 0, 0.60);
+.lightbox-wrapper {
+    background-color: rgba(0, 0, 0, 0.60);
     color: white;
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    p{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    p {
         font-weight: 500;
         text-transform: uppercase;
         margin: 0;
     }
-    .previous,.next{
-        position: absolute;
+
+    .previous,
+    .next {
+
         font-size: 0.75rem;
-        top: 50%;
+
         display: flex;
         align-items: center;
         gap: 8px;
-        &:hover{
+        margin-left: 4%;
+        margin-right: 4%;
+
+        &:hover {
             font-weight: 700;
         }
     }
 
-    .previous{
-        left: 4%;
-        transform: translateY(-50%);
-        
-        .icon_prev{
-            background-image: url(../img/icon_previous.svg);
-            height: 16px;
-            width: 25px;
-        }
+    .icon_prev {
+        background-image: url(../img/icon_previous.svg);
+        height: 16px;
+        width: 25px;
     }
 
-    .previous:hover{
-        .icon_prev{
+
+    .previous:hover {
+        margin-left: calc(4% - 9px);
+
+        .icon_prev {
             width: 34px;
             background-repeat: no-repeat;
             background-size: auto 100%;
         }
     }
 
-    .next{
-        right: 4%;
-        transform: translateY(-50%);
-        .icon_next{
-            background-image: url(../img/icon_next.svg);
-            height: 16px;
-            width: 25px;
-            background-position: right;
-        }
+
+    .icon_next {
+        background-image: url(../img/icon_next.svg);
+        height: 16px;
+        width: 25px;
+        background-position: right;
     }
 
-    .next:hover{
-        .icon_next{
+
+    .next:hover {
+        margin-right: calc(4% - 9px);
+
+        .icon_next {
             width: 34px;
             background-repeat: no-repeat;
             background-size: auto 100%;
-            
+
         }
     }
 
-    .close{
+    .close {
         position: absolute;
         top: calc(5% + 32px);
         right: 5%;
@@ -77,30 +83,32 @@
         background-image: url(../img/icon_croix.svg);
         height: 22px;
         width: 22px;
+        cursor: pointer;
     }
-    .photoContainer{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-            .photo{
-            position : relative;
-            .photoRef{
-                position : absolute;
-                bottom : -4%;
-                left: 0;
-            }
-            .photoCat{
-                position : absolute;
-                bottom: -4%;
-                right: 0;
-            }
-            img{
-                max-height: 80vh;
-                max-width: 60vw;
-                width: 100%;
-                height: 100%;
-            }
+
+    .photoLightboxContainer {
+        display: flex;
+        align-items: center;
+        position: relative;
+        max-height: 85vh;
+
+
+        .refPhotoLightbox {
+            position: absolute;
+            bottom: -4%;
+            left: 0;
+        }
+
+        .catPhotoLightbox {
+            position: absolute;
+            bottom: -4%;
+            right: 0;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            max-height: 85vh;
         }
     }
 }

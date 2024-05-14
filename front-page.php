@@ -72,7 +72,7 @@ $query = new WP_Query([
 <div class="btnContainer">
     <button id="load-more-btn" class="btn">Charger plus</button> 
 </div>
-<?php get_template_part('templates_part/lightbox'); ?>
+
 
 
 

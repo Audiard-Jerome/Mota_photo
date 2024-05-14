@@ -143,6 +143,7 @@ function loadFiltrePhoto() {
             let response = JSON.parse(this.responseText);
             index = response.nbrPhoto;
             console.log(index)
+            
             if (response.posts.length > 0) {
                 // on vide le container
                 container.innerHTML = '';
@@ -150,6 +151,7 @@ function loadFiltrePhoto() {
                 response.posts.forEach(function (post) {
                     container.innerHTML += post;
                 });
+                lightboxAdd() //ajoute l'event listener sur les boutons lightbox
                 if (response.has_more_posts) {
                     loadMoreButton.style.display = 'unset'; // Masquer le bouton s'il n'y a plus de posts à charger
                 } else {

@@ -7,8 +7,8 @@
 ?>
 <div class = "photo_block opacity">
     <?php the_post_thumbnail('medium_large'); ?>
-    <a class="iconEye opacity" href="<?php the_permalink(); ?>"></a>
-    <a class="iconFullscreen opacity js-modal2" href="#modal2"></a>
+    <a class="iconEye opacity"  href="<?php the_permalink(); ?>"></a>
+    <a class="iconFullscreen opacity js-lightbox" href="#lightbox"></a>
     <div class="refPhoto txt opacity">
     <?php
         $custom_fields = get_post_custom();
@@ -26,6 +26,12 @@
             echo $key -> name;
             }                   
         ?>
+    </div>
+    <div class="info" 
+    data-photourl='<?php the_post_thumbnail('full'); ?>'
+    data-photonext='next'
+    data-photoprev='previous'
+    >
     </div>
 </div> 
 
