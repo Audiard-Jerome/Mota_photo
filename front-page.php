@@ -42,7 +42,6 @@
 <div id="posts-container" class="CatalogueContainer">
 <?php 
 
-// load_filtre_photos()
 $query = new WP_Query([
     'post_type' => 'photo',
     'posts_per_page' => '8',

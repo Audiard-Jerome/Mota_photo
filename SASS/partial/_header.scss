@@ -5,7 +5,7 @@ header {
     align-items: center;
     top: var(--wp-admin--admin-bar--height);
     background-color: $background;
-    z-index: 1;
+    z-index: 10;
     position: fixed;
     box-shadow: 0px 4px 14px 10px rgba(0, 0, 0, 0.03);
     padding-left: 10%;
@@ -28,6 +28,8 @@ header {
     }
 }
 
+
+
 @media (max-width: $breakpoint__mobile) {
     header {
         align-items: center;
@@ -42,6 +44,13 @@ header {
         }
     }
 
+    .admin-bar{
+        nav{
+            top : calc(var(--wp-admin--admin-bar--height) + 72px);
+        }
+    
+    }
+
     nav {
         display: flex;
         position: fixed;
@@ -49,7 +58,8 @@ header {
         left: 100vw;
         overflow-x: hidden;
         transition: 0.3s;
-
+        
+        
         ul {
             flex-direction: column;
             justify-content: center;
@@ -58,6 +68,7 @@ header {
             width: 100vw;
             background-color: $rouge;
             margin: 0;
+            
 
             a {
                 font-size: 2.75rem;
@@ -88,3 +99,6 @@ header {
         transform: translateX(0px);
     }
 }
+
+
+

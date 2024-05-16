@@ -84,12 +84,14 @@ add_filter( 'wpcf7_load_css', '__return_false' );
 //Charge le script Ajax.js et création de ajaxurl et ajaxNonce
 
 function ajax_enqueue_scripts() {
+    if ( is_front_page() ) {
     wp_enqueue_script('custom-ajax', get_template_directory_uri() . '/js/ajax.js', array(), '1.0', true);
 	wp_add_inline_script( 'custom-ajax', 'const MYSCRIPT = ' . json_encode( array(
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
         'ajaxNonce' => wp_create_nonce( 'ajaxNonce' )
         // 'ajaxNonce' => 'test'
 	) ), 'before' );
+    }   ;
 }
 
 add_action('wp_enqueue_scripts', 'ajax_enqueue_scripts');

@@ -10,7 +10,7 @@
     overflow: hidden;
     background-color: white;
     margin-top: 80px;
-
+    
 
     h1 {
         font-family: 'space_mono_bold_italic';
@@ -22,11 +22,13 @@
         text-align: center;
         color: transparent;
         animation: effet 1s ease-in-out 1 alternate;
+        z-index: 2;
     }
     img{
         width: 100%;
         height: 100%;
         object-fit: cover;
+        animation: fadein 1s ease-in-out 1 alternate;
     }
 
 }
@@ -50,5 +52,14 @@
     }
     to {
       transform: scale(1);
+    }
+}
+
+@keyframes fadein {
+    from {
+      opacity:0;
+    }
+    to {
+      opacity: 1;
     }
 }
