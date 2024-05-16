@@ -1,40 +1,22 @@
 // test ajax
 console.log('Ajax JS chargé')
 
+let reload = true;
 
 function loadMorePhoto() {
     const loadMoreButton = document.getElementById("load-more-btn");
-    const container = document.getElementById("posts-container");
-    let index = 1; // index en cours.
-
+    
     loadMoreButton.addEventListener("click", function () {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", MYSCRIPT.ajaxurl, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function () {
-            if (this.status == 200) {
-                let response = JSON.parse(this.responseText);
-                if (response.posts.length > 0) {
-                    response.posts.forEach(function (post) {
-                        container.innerHTML += post;
-                    });
-                    index++; // ajoute 1 a l'index
-                    if (!response.has_more_posts) {
-                        loadMoreButton.style.display = 'none'; // Masquer le bouton s'il n'y a plus de posts à charger
-                    }
-                }
-            }
-        };
-        xhr.send("action=load_more_photos&index=" + index + "&nonce=" + MYSCRIPT.ajaxNonce);
+        reload = false;
+        loadFiltrePhoto();
     });
 }
 
 document.addEventListener("DOMContentLoaded", loadMorePhoto);
 
-// filtres.
+//Gestion des filtres
 
-// récupere la variable selectionné.
-
+//init variables
 let valeurFiltreCategorie = '';
 let valeurFiltreFormat = '';
 let valeurFiltreTrier = 'DESC';
@@ -43,7 +25,41 @@ let titreCategorie = document.querySelector('.filtreCategorie .btnFiltre');
 let titreFormat = document.querySelector('.filtreFormat .btnFiltre');
 let titreTrier = document.querySelector('.filtreTrier .btnFiltre');
 
+//fonction pour gerer le'effet menu déroulant
+const btnFiltres = document.querySelectorAll('.btnFiltre');
+
+// Pour chaque élément avec la classe "btnFiltre"
+btnFiltres.forEach(function(btnFiltre) {
+    // Ajout d'un écouteur d'événements pour le clic
+    btnFiltre.addEventListener('click', function() {
+        btnFiltre.classList.toggle('active');
+        // Sélection de l'élément parent (filtreCategorie)
+        let parent = this.parentElement;
+        // Toggle la classe "active" sur l'élément avec la classe "chevron"
+        parent.querySelector('.chevron').classList.toggle('active');
+        // Toggle la classe "active" sur l'élément avec la classe "filtreItems"
+        parent.querySelector('.filtreItems').classList.toggle('active');
+    });
+});
+
+// Écouteur d'événements pour les clics sur le document
+document.addEventListener('click', function(event) {
+    // Vérifier si le clic n'est pas sur un élément avec la classe "filtreCategorie" ou ses enfants
+    if (!event.target.closest('.filtre')) {
+        // Sélectionner tous les éléments avec la classe "filtreCategorie"
+        let filtreCategories = document.querySelectorAll('.filtre');
+        // Pour chaque élément, enlever la classe "active" des éléments enfants
+        filtreCategories.forEach(function(filtreCategorie) {
+            filtreCategorie.querySelector('.btnFiltre').classList.remove('active');
+            filtreCategorie.querySelector('.chevron').classList.remove('active');
+            filtreCategorie.querySelector('.filtreItems').classList.remove('active');
+        });
+    }
+});
+
+
 document.addEventListener("DOMContentLoaded", function () {
+
     const filtreCategorie = document.querySelectorAll(".filtreCategorie .filtreItem");
     filtreCategorie.forEach(element => {
         element.addEventListener("click", function (event) {
@@ -51,29 +67,31 @@ document.addEventListener("DOMContentLoaded", function () {
             if (valeurFiltreCategorie != event.target.dataset.categorie) {
             // met la valeur du filtre dans valeur filtre categorie
             valeurFiltreCategorie = event.target.dataset.categorie
-            // Enleve le rouge
+            // reset la valeur
             filtreCategorie.forEach(item => {
                 item.classList.remove("selected")
             });
-            // colorie le lien en rouge au click
+            // Ajoute la class selected
             event.target.classList.add("selected")
-            // entoure en bleu le titre
+            // Ajoute la class selected
             titreCategorie.classList.add("selected")
             // change le titre
             titreCategorie.firstChild.nodeValue = event.target.textContent
             } else {
-                //enleve le lien en rouge
+                //enleve la class selected
                 filtreCategorie.forEach(item => {
                     item.classList.remove("selected")
                 });
-                // enleve le bleu autour du titre
+                // enleve la class selected
                 titreCategorie.classList.remove("selected")
                 //enleve la valeur de valeurFiltreCategorie
                 valeurFiltreCategorie = '';
                 //remet le titre d'origine.
-                titreCategorie.firstChild.nodeValue = "Catégorie"
+                titreCategorie.firstChild.nodeValue = "Catégories"
             }         
             //charge les photos
+            reload = true;
+            nbrPhotoAffiche = 0
             loadFiltrePhoto()
         })
     });
@@ -88,7 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             event.target.classList.add("selected")
             titreFormat.classList.add("selected")
-            // titreFormat = document.querySelector('.filtreFormat .btnFiltre')
             titreFormat.firstChild.nodeValue = event.target.textContent;
         } else {
             filtreFormat.forEach(item => {
@@ -96,8 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             titreFormat.classList.remove("selected")
             valeurFiltreFormat = '';
-            titreFormat.firstChild.nodeValue = "Format"
+            titreFormat.firstChild.nodeValue = "Formats"
         }
+            reload = true;
+            nbrPhotoAffiche = 0
             loadFiltrePhoto()
         })
     });
@@ -121,15 +140,18 @@ document.addEventListener("DOMContentLoaded", function () {
             valeurFiltreTrier = '';
             titreTrier.firstChild.nodeValue = "Trier par"
         }
+            reload = true;
+            nbrPhotoAffiche = 0
             loadFiltrePhoto()
         })
     });
 });
 
+
+
 // fonction pour charger les photos en fonction des filtres.
 
-
-let index = 8; // nombre de photo affiché.
+let nbrPhotoAffiche = 8; // nombre de photo affiché par défaut.
 
 function loadFiltrePhoto() {
     
@@ -140,23 +162,29 @@ function loadFiltrePhoto() {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onload = function () {
         if (this.status == 200) {
-            let response = JSON.parse(this.responseText);
-            index = response.nbrPhoto;
-            console.log(index)
-            
+            let response = JSON.parse(this.responseText);    
             if (response.posts.length > 0) {
-                // on vide le container
-                container.innerHTML = '';
+                nbrPhotoAffiche += parseInt(response.nbrPhoto) 
+                          
+                //test pour savoir si on vide le container
+                if (reload) {
+                    container.innerHTML = '';
+                    console.log('reload');
+                } else {
+                    console.log('pas de reload');
+                }
                 //on ajoute les nouvelles photos
                 response.posts.forEach(function (post) {
                     container.innerHTML += post;
                 });
-                lightboxAdd() //ajoute l'event listener sur les boutons lightbox
+                // Test pour afficher le bouton load more
                 if (response.has_more_posts) {
                     loadMoreButton.style.display = 'unset'; // Masquer le bouton s'il n'y a plus de posts à charger
                 } else {
                     loadMoreButton.style.display = 'none'; // Affiche le bouton s'il n'y a plus de posts à charger
                 }
+                
+                lightboxAdd() //ajoute l'event listener sur les boutons lightbox
             }
         }
     };
@@ -165,41 +193,7 @@ function loadFiltrePhoto() {
         "&valeurFiltreFormat=" + valeurFiltreFormat +
         "&valeurFiltreTrier=" + valeurFiltreTrier +
         "&nonce=" + MYSCRIPT.ajaxNonce +
-        "&index=" + index
+        "&nbrPhotoAffiche=" + nbrPhotoAffiche
     );
 
 };
-
-
-//fonction pour gerer les boutons filtres
-const btnFiltres = document.querySelectorAll('.btnFiltre');
-
-// Pour chaque élément avec la classe "btnFiltre"
-btnFiltres.forEach(function(btnFiltre) {
-    // Ajout d'un écouteur d'événements pour le clic
-    btnFiltre.addEventListener('click', function() {
-        btnFiltre.classList.toggle('active');
-        // Sélection de l'élément parent (filtreCategorie)
-        let parent = this.parentElement;
-        // Toggle la classe "active" sur l'élément avec la classe "chevron"
-        parent.querySelector('.chevron').classList.toggle('active');
-        // Toggle la classe "active" sur l'élément avec la classe "filtreItems"
-        parent.querySelector('.filtreItems').classList.toggle('active');
-    });
-});
-
-// var acc = document.getElementsByClassName("btnFiltre");
-// var i;
-
-// for (i = 0; i < acc.length; i++) {
-//   acc[i].addEventListener("click", function() {
-    
-//     var panel = this.nextElementSibling;
-//     if (panel.style.maxHeight) {
-//       panel.style.maxHeight = null;
-//     } else {
-//       panel.style.maxHeight = panel.scrollHeight + "px";
-//     } 
-//   });
-// }
-

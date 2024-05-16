@@ -20,7 +20,7 @@ $taxonomies_format = get_the_terms( $post->ID, 'custom_format' );
 $taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
 
         ?>
-        <div class="singlePhotoContainer max_width">
+        <div class="singlePhotoContainer">
             <div class="photoContainer">
                 <div class="infoContainer descriptionPhoto">
                     <!-- affiche le Titre -->

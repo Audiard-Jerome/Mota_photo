@@ -5,7 +5,7 @@
 
 <div class="filtreContainer">
         <div class="filtreCategorie flexColumn filtre">
-        <p class="btnFiltre ">catégories<span class="chevron"></span></p>
+        <p class="btnFiltre ">Catégories<span class="chevron"></span></p>
         <div class="filtreItems">
             <!-- récuperer tout les termes de la taxonomie custom_categorie -->         
             <?php $custom_categories = get_terms(['taxonomy' => 'custom_categorie']);
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="filtreFormat flexColumn filtre">
-        <p class="btnFiltre">Format<span class="chevron"></span></p>
+        <p class="btnFiltre">Formats<span class="chevron"></span></p>
         <div class="filtreItems">
             <!-- récuperer tout les termes de la taxonomie custom_format -->         
             <?php $custom_formats = get_terms(['taxonomy' => 'custom_format']);
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="filtreTrier flexColumn filtre">
-        <p class="btnFiltre">Tier par<span class="chevron"></span></p>
+        <p class="btnFiltre">Trier par<span class="chevron"></span></p>
         <div class="filtreItems">
             <p class="filtreItem" data-trier="desc" >A partir des plus récentes</p>
             <p class="filtreItem" data-trier="asc" >A partir des plus anciennes</p>
@@ -42,12 +42,13 @@
 <div id="posts-container" class="CatalogueContainer">
 <?php 
 
-
+// load_filtre_photos()
 $query = new WP_Query([
     'post_type' => 'photo',
-    'posts_per_page' => '8', // remttre 8
+    'posts_per_page' => '8',
     'order' => 'DESC',
     'orderby' => 'date',
+    'post_status' => 'publish',
     'tax_query' => array(
         'relation' => 'AND',
         array(

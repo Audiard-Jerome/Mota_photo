@@ -2,13 +2,15 @@
 
 .containerHero {
     width: 100vw;
-    height: 100vh;
+    aspect-ratio: 16 / 9;
     display: flex;
     justify-content: center;
     align-items: center;
     object-fit: cover;
     overflow: hidden;
     background-color: white;
+    margin-top: 80px;
+
 
     h1 {
         font-family: 'space_mono_bold_italic';
@@ -19,10 +21,34 @@
         position: absolute;
         text-align: center;
         color: transparent;
+        animation: effet 1s ease-in-out 1 alternate;
     }
-    img {
-        max-width: $max_width;
-        height: auto;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
+}
+
+@media (max-width: $breakpoint__mobile) {
+    .containerHero {
+
+        margin-top: 72px;
+
+        h1 {
+            font-size: 1.75rem;
+            -webkit-text-stroke-width: 1px;
+
+        }
+    }
+}
+
+@keyframes effet {
+    from {
+      transform: scale(0.5);
+    }
+    to {
+      transform: scale(1);
+    }
 }

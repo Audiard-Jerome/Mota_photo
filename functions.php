@@ -95,64 +95,9 @@ function ajax_enqueue_scripts() {
 add_action('wp_enqueue_scripts', 'ajax_enqueue_scripts');
 
 // post ajax
-add_action('wp_ajax_load_more_photos', 'load_more_photos');
-add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
 add_action('wp_ajax_load_filtre_photos', 'load_filtre_photos');
 add_action('wp_ajax_nopriv_load_filtre_photos', 'load_filtre_photos');
-
-function load_more_photos() {
-    //vérifie le jeton nonce
-    check_ajax_referer( 'ajaxNonce', 'nonce');
-
-    $categorie = array('concert', 'mariage', 'reception', 'television');
-    $format = array('paysage', 'portrait');
-    $order = 'DESC';
-    $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
-    //$nbrPostOrigin = '8' //nombre de post a l'origine
-    $index = isset($_POST['index']) ? sanitize_text_field($_POST['index']) : null;
-    $offset = $nbrPostOrigin + ($nbrPost * ($index)); // calcul de l'offset a revoir
-
-    $query = new WP_Query([
-        'post_type' => 'photo',
-        'posts_per_page' => $nbrPost,
-        'order' => $order,
-        'orderby' => 'date',
-        'offset' => $offset,
-        'tax_query' => array(
-            'relation' => 'AND',
-            array(
-                'taxonomy' => 'custom_categorie',
-                'field' => 'slug',
-                'terms' => $categorie,
-            ),
-            array(
-                'taxonomy' => 'custom_format',
-                'field' => 'slug',
-                'terms' => $format,
-            )
-        ),
-    ]);
-
-    $posts = array();
-    while ($query->have_posts()) : $query->the_post();
-        ob_start();
-        get_template_part('templates_part/photo_block');
-        $posts[] = ob_get_clean();
-    endwhile;
-
-    $totalPosts = $query->found_posts; // Nombre total de publications correspondantes à la requête
-
-    $response = array(
-        'posts' => $posts,
-        'has_more_posts' => ($totalPosts > $offset + $nbrPost) // Vérifie s'il y a encore des publications à charger
-    );
-
-    echo json_encode($response);
-
-    exit;
-}
-
 
 
 //fonction filtre
@@ -175,17 +120,15 @@ function load_filtre_photos() {
     $filtreCategorie = isset($_POST['valeurFiltreCategorie']) && !empty($_POST['valeurFiltreCategorie']) ? sanitize_text_field($_POST['valeurFiltreCategorie']) : $categorie;
     $filtreFormat = isset($_POST['valeurFiltreFormat']) && !empty($_POST['valeurFiltreFormat'])? sanitize_text_field($_POST['valeurFiltreFormat']) : $format;
     $order = isset($_POST['valeurFiltreTrier']) && !empty($_POST['valeurFiltreTrier'])? sanitize_text_field($_POST['valeurFiltreTrier']) : 'DESC';
-    // $nbrPost = '8'; //nombre de post en plus quand on clic sur le btn
-    // $nbrPostOrigin = '8'; //nombre de post a l'origine
-    $nbrPhoto = isset($_POST['index']) && !empty($_POST['index'])? sanitize_text_field($_POST['index']) : '8';
-    $offset = '0'; // calcul de l'offset
-
+    $offset = isset($_POST['nbrPhotoAffiche']) && !empty($_POST['nbrPhotoAffiche'])? sanitize_text_field($_POST['nbrPhotoAffiche']) : '0';
+    $nbrPhotoAffiche = $offset + 8;
     $query = new WP_Query([
         'post_type' => 'photo',
         'posts_per_page' => '8',
         'order' => $order,
         'orderby' => 'date',
         'offset' => $offset,
+        'post_status' => 'publish',
         'tax_query' => array(
             'relation' => 'AND',
             array(
@@ -219,11 +162,13 @@ function load_filtre_photos() {
 
     $response = array(
         'posts' => $posts,
-        'has_more_posts' => ($totalPosts > $nbrPhoto), // Vérifie s'il y a encore des publications à charger
-        'nbrPhoto' => $totalPosts
+        'has_more_posts' => ($totalPosts > $nbrPhotoAffiche), // Vérifie s'il y a encore des publications à charger
+        'nbrPhoto' => $nbrPhotoAffiche
     );
 
     echo json_encode($response);
 
     exit;
+
+    wp_die();
 }
