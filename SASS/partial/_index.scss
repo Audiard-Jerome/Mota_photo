@@ -2,8 +2,7 @@
 
 .btnFiltre {
     display: flex;
-    width: 260px;
-    // height: 44px;
+    max-width: 260px;
     padding: 11px 18px;
     margin: 0px;
     border-radius: 8px;
@@ -13,46 +12,50 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    
-    
+    text-transform: uppercase;
+
+
     &.selected {
         border: 1px solid $bleu-CTA;
     }
+
     &.active {
         border-radius: 8px 8px 0 0;
         border: 1px solid $bleu-CTA;
-}
+    }
 
     .chevron {
         background-image: url(../img/chevron.svg);
         height: 20px;
         width: 20px;
+        transition: all 0.2s;
+
         &.active {
             transform: rotate(180deg);
+            transition: all 0.2s;
         }
     }
-    
+
 }
-
-
 
 
 .filtreItems {
-    display: none;
-
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.4, 1);
 }
 
-.filtreItems.active{
+.filtreItems.active {
     display: flex;
     align-items: center;
     flex-direction: column;
     border-radius: 0 0 8px 8px;
-    overflow: hidden;
-    margin-top : 50px;
+    padding-top: 50px;
     cursor: pointer;
+    max-height: 500px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.4, 1);
+
 }
-
-
 
 .filtreItem {
     display: flex;
@@ -63,7 +66,6 @@
     height: 42px;
     box-sizing: border-box;
     width: 100%;
-
 
     &:hover {
         background: $rouge-tertiaire;
@@ -77,6 +79,7 @@
         background: $rouge;
         color: white;
     }
+
 }
 
 .filtreContainer {
@@ -86,17 +89,20 @@
     margin-top: 80px;
 
     .flexColumn {
-        display: flex;
-        flex-direction: column;
+        max-width: 260px;
+        width: 100%;
+        // flex-direction: column;
 
     }
 
     .filtreTrier {
         margin-left: auto;
+
+        .btnFiltre.selected {
+            text-transform: none;
+        }
     }
 }
-
-
 
 .CatalogueContainer {
     display: flex;
@@ -127,4 +133,54 @@
 
 .btnContainer {
     margin: 40px 0;
+}
+
+//responsive
+
+@media (max-width: $breakpoint__mobile) {
+    .filtreContainer {
+        flex-direction: column;
+        align-items: center;
+        width: 85%;
+        gap: 8px;
+        margin-top: 20px;
+
+        .filtre {
+            position: relative;
+
+            .filtreItems {
+                transition: none;
+            }
+
+            .filtreItems.active {
+                position: absolute;
+                z-index: 99;
+                background-color: white;
+                width: 100%;
+                padding-top: 0;
+                transition: none;
+            }
+        }
+
+        .filtreTrier {
+            margin-left: unset;
+        }
+
+        .flexColumn {
+            max-width: 100%;
+
+            .btnFiltre {
+                max-width: 100%;
+            }
+        }
+    }
+
+    .CatalogueContainer {
+        width: 90%;
+        margin-top: 20px;
+
+        .photo_block {
+            width: calc(100%);
+        }
+    }
 }

@@ -5,6 +5,7 @@
     flex-direction: column;
     max-width: 80%;
     box-sizing: border-box;
+    margin-top: 120px;
 
     .photoContainer {
         display: flex;
@@ -40,10 +41,10 @@
             overflow: hidden;
 
             img {
-                width: 100%; 
-                height: 100%; 
-                object-fit: cover; 
-                object-position: center;                     
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
             }
         }
     }
@@ -54,14 +55,14 @@
         justify-content: space-between;
         height: 118px;
         border-bottom: solid 1px #000;
-        
+
         .contact {
             width: 50%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top: solid 1px #000;
-            
+
         }
 
         .pagination {
@@ -106,22 +107,86 @@
         gap: 50px;
         margin-top: 80px;
         margin-bottom: 110px;
+
         .otherThumbnail {
             display: flex;
             justify-content: space-between;
             gap: 20px;
-            .photo_block{
+
+            .photo_block {
                 width: 50%;
                 aspect-ratio: 1.14;
                 overflow: hidden;
+
                 img {
-                    width: 100%; 
-                    height: 100%; 
-                    object-fit: cover; 
-                    object-position: center;                     
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
                 }
-                
+
             }
+        }
+    }
+}
+
+//responsive
+
+@media (max-width: $breakpoint__mobile) {
+    .singlePhotoContainer {
+        max-width: 100vw;
+        margin-top: 92px;
+        align-items: center;
+
+        .photoContainer {
+            flex-direction: column-reverse;
+            align-items: center;
+
+            .photo,
+            .infoContainer {
+                width: 80vw;
+                padding: 0;
+            }
+
+        }
+
+        .contactContainer {
+            width: 80vw;
+            height: unset;
+
+            .contact {
+                width: 100%;
+                flex-direction: column;
+                padding-top: 20px;
+                padding-bottom: 20px;
+
+                p,
+                .btn {
+                    width: 100%;
+                }
+
+            }
+
+            .pagination {
+                display: none;
+            }
+        }
+
+        .otherContainer {
+            width: 90vw;
+            text-align: center;
+            margin: 24px;
+            gap: 20px;
+
+            .otherThumbnail {
+                flex-direction: column;
+                margin: 0;
+
+                .photo_block {
+                    width: 100%;
+                }
+            }
+
         }
     }
 }

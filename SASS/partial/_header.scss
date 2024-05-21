@@ -5,14 +5,17 @@ header {
     align-items: center;
     top: var(--wp-admin--admin-bar--height);
     background-color: $background;
-    z-index: 1;
-    position: sticky;
+    z-index: 10;
+    position: fixed;
     box-shadow: 0px 4px 14px 10px rgba(0, 0, 0, 0.03);
     padding-left: 10%;
     padding-right: 10%;
     height: 80px;
+    width: 100%;
+    box-sizing: border-box;
 
-    .menu ul{
+
+    .menu ul {
         display: flex;
         align-items: center;
         font-size: 1rem;
@@ -24,6 +27,8 @@ header {
         }
     }
 }
+
+
 
 @media (max-width: $breakpoint__mobile) {
     header {
@@ -39,14 +44,22 @@ header {
         }
     }
 
-    nav{
+    .admin-bar{
+        nav{
+            top : calc(var(--wp-admin--admin-bar--height) + 72px);
+        }
+    
+    }
+
+    nav {
         display: flex;
         position: fixed;
         top: 72px;
         left: 100vw;
         overflow-x: hidden;
         transition: 0.3s;
-
+        
+        
         ul {
             flex-direction: column;
             justify-content: center;
@@ -55,6 +68,7 @@ header {
             width: 100vw;
             background-color: $rouge;
             margin: 0;
+            
 
             a {
                 font-size: 2.75rem;
@@ -67,9 +81,10 @@ header {
             }
         }
     }
+
     nav.mobile {
         display: flex;
-        left:0;
+        left: 0;
         transition: 0.3s;
 
     }
@@ -84,3 +99,6 @@ header {
         transform: translateX(0px);
     }
 }
+
+
+

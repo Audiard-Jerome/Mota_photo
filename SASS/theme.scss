@@ -1,15 +1,5 @@
-//debug
-// * {
-//      outline: 1px solid green;
-//  }
-
 //breakpoint
 $breakpoint__mobile: 769px;
-$max_width : 1920px;
-
-.max_width {
-    max-width: $max_width;
-}
 
 //import variables
 @import "variables/colors.scss";
@@ -35,7 +25,6 @@ $max_width : 1920px;
 //inmort photo-block
 @import "partial/photo_block.scss";
 
-
 //import lightbox
 @import "partial/lightbox.scss";
 
@@ -60,6 +49,11 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
+}
+
+ul {
+    padding: 0;
 }
 
 li {
@@ -71,11 +65,15 @@ a {
     color: $noir;
 }
 
+section {
+    margin: 5%;
+}
+
 .btn {
     display: flex;
     font-family: "space_mono_regular";
     width: 272px;
-    height: 50px; 
+    height: 50px;
     justify-content: center;
     align-items: center;
     border: none;
@@ -92,11 +90,8 @@ a {
     }
 }
 
-// test ajax
-
-button {
-    width: 200px;
-    height: 50px;
+.post {
+    width: 80%;
 }
 
 //responsive

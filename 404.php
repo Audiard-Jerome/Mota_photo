@@ -6,7 +6,7 @@ get_header();
 <div>
     <?php get_template_part('templates_part/hero'); ?>
 </div>
-<section class="max_width">
+<section>
     <h1 >Oops! Page non trouvée</h1>
     <div>
     <p>Désolé, la page que vous recherchez semble introuvable.</p>

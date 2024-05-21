@@ -1,7 +1,7 @@
 console.log("JS fenetre modale contact chargé")
 let modal = null
 
-const openModal = function (e) {
+function openModal(e) {
     e.preventDefault()
     modal = document.querySelector(e.target.getAttribute('href'))
     modal.style.display = null
@@ -19,7 +19,7 @@ const openModal = function (e) {
     modalRef.value = photoRef.textContent
 }
 
-const closeModal = function (e) {
+function closeModal(e) {
     if (modal === null) return
     e.preventDefault()
     modal.setAttribute('aria-hidden', 'true')
