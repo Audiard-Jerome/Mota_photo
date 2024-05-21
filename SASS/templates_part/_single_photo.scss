@@ -118,6 +118,14 @@
                 aspect-ratio: 1.14;
                 overflow: hidden;
 
+                @media (min-width: $breakpoint__mobile) {
+                    transition: transform .3s;
+
+                    &:hover {
+                        transform: scale(1.05)
+                    }
+                }
+
                 img {
                     width: 100%;
                     height: 100%;

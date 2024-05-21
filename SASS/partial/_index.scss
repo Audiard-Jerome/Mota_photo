@@ -117,10 +117,14 @@
         width: calc(50% - 10px);
         aspect-ratio: 1.14;
         overflow: hidden;
-        animation-name: rotation;
-        animation-duration: 10s;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
+
+        @media (min-width: $breakpoint__mobile) {
+            transition: transform .3s;
+
+            &:hover {
+                transform: scale(1.05)
+            }
+        }
 
         img {
             width: 100%;
