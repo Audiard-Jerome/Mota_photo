@@ -168,10 +168,7 @@ function loadFiltrePhoto() {
                 //test pour savoir si on vide le container
                 if (reload) {
                     container.innerHTML = '';
-                    console.log('reload');
-                } else {
-                    console.log('pas de reload');
-                }
+                    } 
                 //on ajoute les nouvelles photos
                 response.posts.forEach(function (post) {
                     container.innerHTML += post;

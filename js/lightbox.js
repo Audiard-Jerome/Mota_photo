@@ -1,4 +1,4 @@
-console.log("fichier lightbox.JS chargé")
+//lightbox
 
 let lightbox = null
 let currentPhotoIndex = 0; // Index de l'image actuellement affichée dans la lightbox

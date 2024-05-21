@@ -1,9 +1,4 @@
 <?php
-/**
- * Le modèle de hero.
- *
- * @package mona-photo
- */
 
 $tagline = get_bloginfo('description');
 

@@ -1,4 +1,3 @@
-console.log("JS fenetre modale contact chargé")
 let modal = null
 
 function openModal(e) {

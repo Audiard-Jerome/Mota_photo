@@ -1,9 +1,4 @@
 <?php
-/**
- * Template part for displaying photo.
- *
- * @package Mona-photo
- */
 ?>
 <div class = "photo_block opacity">
     <?php the_post_thumbnail('medium_large'); ?>
@@ -29,8 +24,6 @@
     </div>
     <div class="info" 
     data-photourl='<?php the_post_thumbnail('full'); ?>'
-    data-photonext='next'
-    data-photoprev='previous'
     >
     </div>
 </div> 

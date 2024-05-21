@@ -1,5 +1,4 @@
 // gestion menu burger
-console.log("JS menu burger chargé")
 
 const burger = document.querySelector('.burger');
 const menu = document.querySelector('.menu');

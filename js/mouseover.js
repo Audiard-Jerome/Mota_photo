@@ -1,5 +1,3 @@
-console.log("JS gestion mouseover chargé")
-
 //détection du survol de la fleche article précédent
 let previousLink = document.querySelector(".paginationBtn .previousLink")
 let paginationPhotoPrev = document.querySelector(".paginationPhotoPrev")
