@@ -6,7 +6,7 @@
  */
 ?>
 <div class = "photo_block opacity">
-    <?php the_post_thumbnail('medium'); ?>
+    <?php the_post_thumbnail('medium_large'); ?>
     <a class="iconEye opacity"  href="<?php the_permalink(); ?>"></a>
     <a class="iconFullscreen opacity js-lightbox" href="#lightbox"></a>
     <div class="refPhoto txt opacity">

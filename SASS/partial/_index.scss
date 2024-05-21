@@ -57,8 +57,6 @@
 
 }
 
-
-
 .filtreItem {
     display: flex;
     align-items: center;
@@ -106,10 +104,6 @@
     }
 }
 
-
-
-
-
 .CatalogueContainer {
     display: flex;
     flex-wrap: wrap;
@@ -123,6 +117,10 @@
         width: calc(50% - 10px);
         aspect-ratio: 1.14;
         overflow: hidden;
+        animation-name: rotation;
+        animation-duration: 10s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
 
         img {
             width: 100%;

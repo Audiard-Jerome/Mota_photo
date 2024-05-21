@@ -1,5 +1,4 @@
 // test ajax
-console.log('Ajax JS chargé')
 
 let reload = true;
 
