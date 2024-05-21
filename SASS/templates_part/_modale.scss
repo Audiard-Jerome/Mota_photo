@@ -148,4 +148,23 @@
         margin: 0;
         padding: 0;
     }
+    .close{
+        display: none;
+        @media (max-width: $breakpoint__mobile) {
+            display: unset;
+            position:absolute;
+            top: 15px;
+            right: 15px;
+            background-image: url(../img/icon_croix.svg);
+            border-radius: 23px;
+            height: 46px;
+            width: 46px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.80);
+            cursor: pointer;
+
+        }
+
+    }
 }

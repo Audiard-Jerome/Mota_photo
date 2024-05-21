@@ -20,3 +20,18 @@ footer {
         }
     }
 }
+
+//responsive
+
+@media (max-width: $breakpoint__mobile) {
+
+    footer {
+        height: auto;
+
+        .menu {
+            flex-direction: column;
+            gap: 24px;
+            padding: 43px 0px 43px 0px;
+        }
+    }
+}

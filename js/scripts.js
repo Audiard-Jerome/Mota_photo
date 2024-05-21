@@ -3,11 +3,13 @@ let modal = null
 
 function openModal(e) {
     e.preventDefault()
-    modal = document.querySelector(e.target.getAttribute('href'));
+    modal = document.querySelector(e.target.getAttribute('href'))
     modal.style.display = null
     modal.removeAttribute('aria-hidden')
     modal.addEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+    const closeButton = modal.querySelector('.close');
+    closeButton.addEventListener('click', closeModal);
     //recupere la reference de la photo.
     let photoRef = document.querySelector('.photoRef')
     //si photoRef n'existe pas on arrete. 
