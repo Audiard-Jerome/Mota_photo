@@ -1,9 +1,17 @@
 /*
-Theme Name: Mota Photo
-Theme URI: https://github.com/Audiard-Jerome
-Author: Jérôme Audiard
-Author URI: https://github.com/Audiard-Jerome
-Description: Theme Mota photo pour le projet 11 du parcours développeur wordpress.
-Requires at least: WordPress 6.4
-Version: 1.0
+Theme Name: mota-photo
+Theme URI: https://github.com/Audiard-Jerome/Mota_photo
+Author: Audiard Jérôme
+Author URI: https://github.com/Audiard-Jerome/
+Description: Theme mota-photo pour le projet 11 du parcours developpeur wordpress d'Openclassrooms
+Tags: Mota Photo
+Version: 1.1
+Requires at least: 6.5
+Tested up to: 6.5.3
+Requires PHP: 8.1
+License: GNU General Public License v3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: motaphoto
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
 */

@@ -17,6 +17,8 @@ function theme_enqueue_styles(){
 
 // Ajouter la prise en charge des images mises en avant
 add_theme_support( 'post-thumbnails' );
+add_theme_support( "title-tag" );
+
 
 // Ajouter le custom logo.
 function mota_custom_logo_setup() {
