@@ -37,7 +37,7 @@ $taxonomies_categorie = get_the_terms( $post->ID, 'custom_categorie' );
                     <!-- affiche la taxonomie "cathégorie" -->
                     <?php
                        foreach ($taxonomies_categorie as $key) {
-                        echo '<p>cathégorie : ' . $key -> name . '</p>';
+                        echo '<p>Catégorie : ' . $key -> name . '</p>';
                        }
                     ?>
                     <!-- affiche la taxonomie "Format" -->

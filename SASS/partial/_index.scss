@@ -14,7 +14,6 @@
     cursor: pointer;
     text-transform: uppercase;
 
-
     &.selected {
         border: 1px solid $bleu-CTA;
     }
@@ -43,6 +42,10 @@
     max-height: 0;
     overflow: hidden;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.4, 1);
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    width: 100%;
 }
 
 .filtreItems.active {
@@ -54,6 +57,7 @@
     cursor: pointer;
     max-height: 500px;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.4, 1);
+
 
 }
 
@@ -87,11 +91,13 @@
     width: 80%;
     gap: 36px;
     margin-top: 80px;
+    .filtre{
+        position: relative;
+    }
 
     .flexColumn {
         max-width: 260px;
         width: 100%;
-        // flex-direction: column;
 
     }
 
@@ -150,17 +156,13 @@
         margin-top: 20px;
 
         .filtre {
-            position: relative;
-
+            
             .filtreItems {
                 transition: none;
             }
 
             .filtreItems.active {
                 position: absolute;
-                z-index: 99;
-                background-color: white;
-                width: 100%;
                 padding-top: 0;
                 transition: none;
             }
